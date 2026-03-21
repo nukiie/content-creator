@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tidlor Content Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:    #0d1117;
+  --ink2:   #161b22;
+  --ink3:   #21262d;
+  --line:   #30363d;
+  --line2:  #444c56;
+  --muted:  #6e7681;
+  --body:   #c9d1d9;
+  --head:   #f0f6fc;
+  --lime:   #39d353;
+  --amber:  #f0a500;
+  --coral:  #f85149;
+  --sky:    #58a6ff;
+  --violet: #a371f7;
+  --fn: 'Sarabun', sans-serif;
+  --mo: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--ink);
+  color: var(--body);
+  font-family: var(--fn);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Subtle dot grid background ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(48,54,61,.6) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 0 20px 80px; }
+
+/* ────────── HEADER ────────── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 0 22px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+.logo-ring {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--lime);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.logo-ring::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px solid rgba(57,211,83,.25);
+}
+.logo-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  animation: glow 2s ease-in-out infinite;
+}
+@keyframes glow { 0%,100%{box-shadow:0 0 6px var(--lime)} 50%{box-shadow:0 0 16px var(--lime)} }
+
+.header-text h1 { font-size: 17px; font-weight: 700; color: var(--head); letter-spacing: -.3px; }
+.header-text p  { font-size: 11px; color: var(--muted); font-family: var(--mo); margin-top: 1px; }
+
+.header-status {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 7px;
+  font-size: 11px; color: var(--muted); font-family: var(--mo);
+}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ────────── CONTROL PANEL ────────── */
+.panel {
+  background: var(--ink2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.panel-label {
+  font-size: 10px;
+  font-family: var(--mo);
+  color: var(--lime);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+.input-wrap {
+  display: flex; gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.kw-input {
+  flex: 1;
+  min-width: 180px;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: 15px;
+  color: var(--head);
+  font-family: var(--fn);
+  outline: none;
+  transition: border-color .2s;
+}
+.kw-input:focus { border-color: var(--lime); }
+.kw-input::placeholder { color: var(--muted); }
+
+.run-btn {
+  padding: 11px 26px;
+  background: var(--lime);
+  color: #0d1117;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--fn);
+  cursor: pointer;
+  transition: all .18s;
+  letter-spacing: .2px;
+  white-space: nowrap;
+}
+.run-btn:hover:not(:disabled) { background: #56e877; transform: translateY(-1px); }
+.run-btn:active:not(:disabled) { transform: translateY(0); }
+.run-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* Audience toggle */
+.aud-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.aud-label { font-size: 11px; color: var(--muted); margin-right: 2px; }
+.aud-btn {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  font-family: var(--fn);
+  cursor: pointer;
+  transition: all .15s;
+}
+.aud-btn.active {
+  background: var(--violet);
+  border-color: var(--violet);
+  color: #fff;
+}
+.aud-btn:hover:not(.active) { border-color: var(--violet); color: var(--body); }
+
+/* Quick chips */
+.quick-row {
+  display: flex; gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.ql { font-size: 10px; color: var(--muted); line-height: 24px; }
+.quick-btn {
+  padding: 3px 10px;
+  background: var(--ink3);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font-size: 11px;
+  color: var(--body);
+  cursor: pointer;
+  font-family: var(--fn);
+  transition: all .15s;
+}
+.quick-btn:hover { border-color: var(--lime); color: var(--lime); }
+
+/* URL config */
+.cfg-row {
+  display: flex; gap: 7px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.cfg-input {
+  flex: 1;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 8px 11px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--mo);
+  outline: none;
+  transition: border-color .2s;
+}
+.cfg-input:focus { border-color: var(--sky); color: var(--body); }
+.save-btn {
+  padding: 8px 14px;
+  background: var(--ink3);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--fn);
+  transition: all .15s;
+  white-space: nowrap;
+}
+.save-btn:hover { border-color: var(--sky); color: var(--sky); }
+
+/* ────────── ERROR ────────── */
+.error-box {
+  display: none;
+  padding: 12px 16px;
+  background: rgba(248,81,73,.07);
+  border: 1px solid rgba(248,81,73,.3);
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 11px;
+  color: #ff7b72;
+  font-family: var(--mo);
+  line-height: 1.6;
+}
+.error-box.show { display: block; }
+
+/* ────────── LOADING ────────── */
+.loading-wrap {
+  display: none;
+  text-align: center;
+  padding: 60px 0;
+}
+.loading-wrap.show { display: block; }
+.loader {
+  width: 48px; height: 48px;
+  margin: 0 auto 18px;
+  border: 2px solid var(--line);
+  border-top-color: var(--lime);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.load-text  { font-size: 13px; color: var(--muted); font-family: var(--mo); }
+.load-step  { font-size: 11px; color: var(--lime);  font-family: var(--mo); margin-top: 6px; min-height: 16px; }
+
+/* ────────── EMPTY ────────── */
+.empty-state {
+  text-align: center;
+  padding: 70px 0;
+  color: var(--muted);
+}
+.empty-icon { font-size: 42px; margin-bottom: 14px; opacity: .3; }
+.empty-state p { font-size: 13px; line-height: 1.8; }
+
+/* ────────── RESULTS ────────── */
+.results-wrap { display: none; }
+.results-wrap.show { display: block; }
+
+/* Meta strip */
+.meta-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 9px 14px;
+  background: var(--ink2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+.meta-item { font-size: 10px; font-family: var(--mo); color: var(--muted); }
+.meta-item strong { color: var(--lime); font-weight: 400; }
+.meta-time { margin-left: auto; font-size: 10px; font-family: var(--mo); color: var(--line2); }
+
+/* Section header */
+.sec-hd {
+  font-size: 10px;
+  font-family: var(--mo);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  margin: 22px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sec-hd::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* Card grid */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+@media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--ink2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.card.c-lime::before   { background: var(--lime); }
+.card.c-sky::before    { background: var(--sky); }
+.card.c-violet::before { background: var(--violet); }
+.card.c-amber::before  { background: var(--amber); }
+.card.c-coral::before  { background: var(--coral); }
+.card.full { grid-column: 1 / -1; }
+
+.card-label {
+  font-size: 10px;
+  font-family: var(--mo);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.card.c-lime   .card-label { color: var(--lime); }
+.card.c-sky    .card-label { color: var(--sky); }
+.card.c-violet .card-label { color: var(--violet); }
+.card.c-amber  .card-label { color: var(--amber); }
+.card.c-coral  .card-label { color: var(--coral); }
+
+/* Keyword cloud */
+.kw-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
+.kw-tag {
+  padding: 3px 9px;
+  background: var(--ink3);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 11px;
+  color: var(--body);
+}
+
+/* PAA list */
+.paa-list { list-style: none; }
+.paa-list li {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--body);
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.paa-list li:last-child { border-bottom: none; }
+.paa-list li::before {
+  content: "?";
+  color: var(--violet);
+  font-family: var(--mo);
+  font-size: 10px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Script blocks */
+.script-field { margin-bottom: 14px; }
+.script-label {
+  font-size: 9px;
+  font-family: var(--mo);
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+.script-box {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 10px 13px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--body);
+  border-left: 2px solid transparent;
+}
+.script-box.hook   { border-left-color: var(--amber); font-weight: 600; font-size: 14px; color: var(--head); }
+.script-box.body   { border-left-color: var(--violet); }
+.script-box.cta    { border-left-color: var(--lime); }
+.script-box.cap    { border-left-color: var(--line2); font-style: italic; color: var(--muted); }
+
+.hashtag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.hashtag { font-size: 11px; color: var(--sky); font-family: var(--mo); }
+
+/* AEO */
+.aeo-item {
+  background: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.aeo-item:last-child { margin-bottom: 0; }
+.aeo-q {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--head);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.aeo-q::before { content: "Q  "; color: var(--lime); font-family: var(--mo); font-size: 9px; }
+.aeo-a { font-size: 12px; line-height: 1.65; color: var(--body); }
+.aeo-a::before { content: "A  "; color: var(--muted); font-family: var(--mo); font-size: 9px; }
+
+/* Pain points */
+.pain-list { list-style: none; }
+.pain-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--body);
+  display: flex; gap: 7px;
+}
+.pain-list li:last-child { border-bottom: none; }
+.pain-list li::before {
+  content: "—";
+  color: var(--coral);
+  font-family: var(--mo);
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* SERP results */
+.serp-item { padding: 9px 0; border-bottom: 1px solid var(--line); }
+.serp-item:last-child { border-bottom: none; }
+.serp-title  { font-size: 12px; color: var(--sky); margin-bottom: 3px; }
+.serp-snip   { font-size: 11px; color: var(--muted); line-height: 1.5; }
+.serp-url    { font-size: 9px; font-family: var(--mo); color: var(--line2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Actions */
+.action-row {
+  display: flex; gap: 8px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  padding: 9px 18px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  font-family: var(--fn);
+  cursor: pointer;
+  transition: all .15s;
+  background: var(--ink3);
+  color: var(--body);
+}
+.action-btn:hover  { border-color: var(--lime); color: var(--lime); }
+.action-btn.save   { background: var(--lime); color: #0d1117; border-color: var(--lime); font-weight: 700; }
+.action-btn.save:hover { background: #56e877; }
+.action-btn.reset:hover { border-color: var(--coral); color: var(--coral); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo-ring"><div class="logo-dot"></div></div>
+  <div class="header-text">
+    <h1>Tidlor Content Radar</h1>
+    <p>keyword · tiktok script · aeo · serp</p>
+  </div>
+  <div class="header-status">
+    <div class="status-dot"></div>
+    <span id="status-lbl">ready</span>
+  </div>
+</header>
+
+<!-- CONTROL PANEL -->
+<div class="panel">
+  <div class="panel-label">⚡ Content Radar</div>
+
+  <div class="input-wrap">
+    <input class="kw-input" id="kw-input"
+      type="text"
+      placeholder="พิมพ์ keyword เช่น สินเชื่อทะเบียนรถ..."
+      value="สินเชื่อทะเบียนรถ"/>
+    <button class="run-btn" id="run-btn" onclick="runFull()">▶ Run</button>
+  </div>
+
+  <div class="aud-row">
+    <span class="aud-label">กลุ่มเป้าหมาย:</span>
+    <button class="aud-btn active" onclick="setAud('gen_z', this)">Gen Z (18–27)</button>
+    <button class="aud-btn"        onclick="setAud('gen_y', this)">Gen Y (28–42)</button>
+  </div>
+
+  <div class="quick-row">
+    <span class="ql">Quick:</span>
+    <button class="quick-btn" onclick="setKw('สินเชื่อทะเบียนรถ')">สินเชื่อทะเบียนรถ</button>
+    <button class="quick-btn" onclick="setKw('สินเชื่อโฉนดที่ดิน')">สินเชื่อโฉนดที่ดิน</button>
+    <button class="quick-btn" onclick="setKw('บัตรติดล้อ')">บัตรติดล้อ</button>
+    <button class="quick-btn" onclick="setKw('กู้เงิน')">กู้เงิน</button>
+    <button class="quick-btn" onclick="setKw('เงินกู้ฉุกเฉิน')">เงินกู้ฉุกเฉิน</button>
+    <button class="quick-btn" onclick="setKw('รีไฟแนนซ์รถ')">รีไฟแนนซ์รถ</button>
+  </div>
+
+  <div class="cfg-row">
+    <input class="cfg-input" id="cfg-url"
+      type="text"
+      placeholder="https://script.google.com/macros/s/AKfycbzhBawgpfRA7yRep4bGWGIzo6t3zKx1FNkgU4GqUfj-9WSmfSDYEjROT9C0_nqi8qrf/exec"/>
+    <button class="save-btn" onclick="saveCfg()">💾 Save URL</button>
+  </div>
+</div>
+
+<!-- ERROR -->
+<div class="error-box" id="error-box"></div>
+
+<!-- LOADING -->
+<div class="loading-wrap" id="loading-wrap">
+  <div class="loader"></div>
+  <div class="load-text">กำลังวิเคราะห์ keyword...</div>
+  <div class="load-step" id="load-step">เชื่อมต่อ SerpAPI</div>
+</div>
+
+<!-- EMPTY STATE -->
+<div class="empty-state" id="empty-state">
+  <div class="empty-icon">📡</div>
+  <p>พิมพ์ keyword แล้วกด <strong>Run</strong><br>ระบบจะดึงข้อมูล SERP + สร้าง TikTok Script + AEO ให้อัตโนมัติ</p>
+</div>
+
+<!-- RESULTS -->
+<div class="results-wrap" id="results-wrap">
+
+  <div class="meta-strip" id="meta-strip"></div>
+
+  <!-- Section: Research -->
+  <div class="sec-hd">🔍 Keyword Research</div>
+  <div class="grid-2" id="research-grid"></div>
+
+  <!-- Section: TikTok Script -->
+  <div class="sec-hd">🎵 TikTok Script</div>
+  <div id="script-block"></div>
+
+  <!-- Section: AEO + Insights -->
+  <div class="sec-hd">🤖 AEO + Insights</div>
+  <div class="grid-2" id="aeo-grid"></div>
+
+  <!-- Actions -->
+  <div class="action-row">
+    <button class="action-btn save"  onclick="saveSheet()">📊 Save to Sheet</button>
+    <button class="action-btn"       onclick="copyScript()">📋 Copy Script</button>
+    <button class="action-btn"       onclick="copyAEO()">🤖 Copy AEO</button>
+    <button class="action-btn reset" onclick="resetAll()">🔄 ใหม่</button>
+  </div>
+
+</div>
+
+</div><!-- /page -->
+<script>
+// ── Config ──────────────────────────────────────────────────
+const DEFAULT_URL = '';   // ← ใส่ default URL ได้ถ้าต้องการ
+let ASurl   = localStorage.getItem('tidlor_url') || DEFAULT_URL;
+let audience = 'gen_z';
+let currentData = null;
+
+window.onload = () => {
+  if (ASurl) {
+    document.getElementById('cfg-url').value = ASurl;
+  }
+};
+
+// ── Helpers ──────────────────────────────────────────────────
+function setKw(v){ document.getElementById('kw-input').value = v; }
+function setAud(v, el){
+  audience = v;
+  document.querySelectorAll('.aud-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+function saveCfg(){
+  const u = document.getElementById('cfg-url').value.trim();
+  if (!u) return;
+  ASurl = u;
+  localStorage.setItem('tidlor_url', u);
+  setStatus('saved ✓');
+  setTimeout(() => setStatus('ready'), 1500);
+}
+function setStatus(t){ document.getElementById('status-lbl').textContent = t; }
+function showErr(msg){
+  const el = document.getElementById('error-box');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideErr(){ document.getElementById('error-box').classList.remove('show'); }
+function show(id){ document.getElementById(id).classList.add('show'); }
+function hide(id){ document.getElementById(id).classList.remove('show'); }
+function forceHide(id){ document.getElementById(id).style.display = 'none'; }
+function forceShow(id){ document.getElementById(id).style.display = ''; }
+
+// ── JSONP ────────────────────────────────────────────────────
+function jsonp(base, params, onSuccess, onError){
+  const cbName = 'jscb_' + Date.now();
+  const timeout = setTimeout(() => {
+    cleanup();
+    onError('timeout — Apps Script ไม่ตอบ (>90s)');
+  }, 90000);
+
+  function cleanup(){
+    delete window[cbName];
+    const s = document.getElementById('__jscript__');
+    if (s) s.remove();
+    clearTimeout(timeout);
+  }
+
+  window[cbName] = (data) => { cleanup(); onSuccess(data); };
+
+  const qs = Object.entries(params)
+    .map(([k,v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
+    .join('&');
+
+  const script = document.createElement('script');
+  script.id    = '__jscript__';
+  script.src   = base + '?' + qs + '&callback=' + cbName;
+  script.onerror = () => {
+    cleanup();
+    onError('โหลด script ไม่ได้ — ตรวจสอบ Deploy: Execute as Me, Anyone can access');
+  };
+  document.body.appendChild(script);
+}
+
+// ── Run ──────────────────────────────────────────────────────
+function runFull(){
+  const kw = document.getElementById('kw-input').value.trim();
+
+  if (!kw){
+    showErr('กรุณาใส่ keyword ก่อน');
+    return;
+  }
+  if (!ASurl){
+    showErr('ยังไม่ได้ใส่ Apps Script URL — กรอกแล้วกด Save URL');
+    return;
+  }
+
+  hideErr();
+  setBusy(true);
+  show('loading-wrap');
+  forceHide('empty-state');
+  forceHide('results-wrap');
+
+  // Step messages
+  const steps = [
+    'กำลัง query SerpAPI...',
+    'ดึง People Also Ask...',
+    'ดึง Autocomplete Suggestions...',
+    'ส่ง prompt ไป Gemini...',
+    'สร้าง TikTok Script + AEO...',
+    'เกือบเสร็จแล้ว...',
+  ];
+  let si = 0;
+  const stepEl = document.getElementById('load-step');
+  const iv = setInterval(() => {
+    if (si < steps.length) stepEl.textContent = steps[si++];
+  }, 1300);
+
+  jsonp(
+    ASurl,
+    { action: 'full', keyword: kw, audience },
+    (json) => {
+      clearInterval(iv);
+      setBusy(false);
+      hide('loading-wrap');
+
+      if (!json.success){
+        showErr('Error จาก Apps Script: ' + (json.error || 'Unknown error'));
+        forceShow('empty-state');
+        return;
+      }
+
+      currentData = { keyword: kw, audience, ...json.data };
+      renderAll(currentData);
+      forceShow('results-wrap');
+      // Smooth scroll to results
+      setTimeout(() => document.getElementById('results-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    },
+    (err) => {
+      clearInterval(iv);
+      setBusy(false);
+      hide('loading-wrap');
+      showErr('เรียก Apps Script ไม่ได้: ' + err);
+      forceShow('empty-state');
+    }
+  );
+}
+
+function setBusy(v){
+  document.getElementById('run-btn').disabled = v;
+  setStatus(v ? 'running...' : 'ready');
+}
+
+// ── Render ───────────────────────────────────────────────────
+function renderAll(d){
+  const { research, content, keyword, audience } = d;
+
+  // Meta strip
+  document.getElementById('meta-strip').innerHTML = `
+    <div class="meta-item">keyword: <strong>${esc(keyword)}</strong></div>
+    <div class="meta-item">audience: <strong>${audience === 'gen_z' ? 'Gen Z' : 'Gen Y'}</strong></div>
+    <div class="meta-item">intent: <strong>${esc(content.search_intent || '—')}</strong></div>
+    <div class="meta-item">angle: <strong>${esc(content.content_angle || '—')}</strong></div>
+    <div class="meta-time">${new Date().toLocaleTimeString('th-TH')}</div>`;
+
+  // ── Research grid ──
+  const rg = document.getElementById('research-grid');
+  rg.innerHTML = '';
+
+  const relTags = [
+    ...(research.relatedSearches || []),
+    ...(research.suggestions || []),
+  ].map(s => `<span class="kw-tag">${esc(s)}</span>`).join('');
+  rg.innerHTML += card('c-lime', '🔍 Related + Autocomplete',
+    `<div class="kw-cloud">${relTags}</div>`);
+
+  rg.innerHTML += card('c-violet', '💬 People Also Ask',
+    `<ul class="paa-list">${(research.peopleAlsoAsk || []).map(q => `<li>${esc(q)}</li>`).join('')}</ul>`);
+
+  rg.innerHTML += card('c-sky full', '📈 Top SERP Results',
+    (research.topResults || []).map(r => `
+      <div class="serp-item">
+        <div class="serp-title">${esc(r.title || '')}</div>
+        <div class="serp-snip">${esc(r.snippet || '')}</div>
+        <div class="serp-url">${esc(r.url || '')}</div>
+      </div>`).join(''));
+
+  // ── TikTok Script ──
+  const t = content.tiktok_script || {};
+  document.getElementById('script-block').innerHTML = card('c-amber full', '🎵 TikTok Script', `
+    <div class="script-field">
+      <div class="script-label">🎬 Hook — ดึงดูดใน 3 วินาที</div>
+      <div class="script-box hook">${esc(t.hook || '—')}</div>
+    </div>
+    <div class="script-field">
+      <div class="script-label">📢 Script / Body</div>
+      <div class="script-box body">${(t.body || '—').replace(/\n/g, '<br>')}</div>
+    </div>
+    <div class="script-field">
+      <div class="script-label">✅ CTA</div>
+      <div class="script-box cta">${esc(t.cta || '—')}</div>
+    </div>
+    <div class="script-field">
+      <div class="script-label">📎 Caption</div>
+      <div class="script-box cap">${esc(t.caption || '—')}</div>
+    </div>
+    <div class="hashtag-row">${(t.hashtags || []).map(h => `<span class="hashtag">${esc(h)}</span>`).join(' ')}</div>`);
+
+  // ── AEO + Insights ──
+  const ag = document.getElementById('aeo-grid');
+  ag.innerHTML = '';
+
+  ag.innerHTML += card('c-sky full', '🤖 AEO Answers (AI Search)',
+    (content.aeo_answers || []).map(a => `
+      <div class="aeo-item">
+        <div class="aeo-q">${esc(a.question || '')}</div>
+        <div class="aeo-a">${esc(a.answer || '')}</div>
+      </div>`).join(''));
+
+  ag.innerHTML += card('c-coral', '⚡ Pain Points',
+    `<ul class="pain-list">${(content.pain_points || []).map(p => `<li>${esc(p)}</li>`).join('')}</ul>`);
+
+  ag.innerHTML += card('c-lime', '🎯 Content Angle', `
+    <div style="font-size:14px;font-weight:600;color:#f0f6fc;line-height:1.5;margin-bottom:8px">${esc(content.content_angle || '—')}</div>
+    <div style="font-size:12px;color:#6e7681">Search Intent: <span style="color:#39d353">${esc(content.search_intent || '—')}</span></div>`);
+}
+
+function card(cls, label, body){
+  return `<div class="card ${cls}"><div class="card-label">${label}</div>${body}</div>`;
+}
+
+function esc(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ── Actions ──────────────────────────────────────────────────
+function saveSheet(){
+  if (!currentData || !ASurl) return;
+  const url = `${ASurl}?action=full&keyword=${encodeURIComponent(currentData.keyword)}&audience=${currentData.audience}`;
+  setStatus('saving...');
+  fetch(url)
+    .then(() => { setStatus('saved ✓'); setTimeout(() => setStatus('ready'), 2000); })
+    .catch(() => setStatus('save failed'));
+}
+
+function copyScript(){
+  if (!currentData?.content?.tiktok_script) return;
+  const t = currentData.content.tiktok_script;
+  const text = [
+    `🎬 HOOK:\n${t.hook}`,
+    `\n📢 SCRIPT:\n${t.body}`,
+    `\n✅ CTA:\n${t.cta}`,
+    `\n📎 CAPTION:\n${t.caption}`,
+    `\n${(t.hashtags || []).join(' ')}`,
+  ].join('\n');
+  navigator.clipboard.writeText(text).then(() => alert('คัดลอก TikTok Script เรียบร้อย!'));
+}
+
+function copyAEO(){
+  if (!currentData?.content?.aeo_answers) return;
+  const text = currentData.content.aeo_answers
+    .map(a => `Q: ${a.question}\nA: ${a.answer}`)
+    .join('\n\n');
+  navigator.clipboard.writeText(text).then(() => alert('คัดลอก AEO Answers เรียบร้อย!'));
+}
+
+function resetAll(){
+  currentData = null;
+  forceHide('results-wrap');
+  forceShow('empty-state');
+  document.getElementById('research-grid').innerHTML = '';
+  document.getElementById('script-block').innerHTML  = '';
+  document.getElementById('aeo-grid').innerHTML      = '';
+  hideErr();
+}
+</script>
+</body>
+</html>

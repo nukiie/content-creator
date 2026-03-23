@@ -9,490 +9,489 @@
 :root{
   --bg:#0c0c0c;--s1:#141414;--s2:#1c1c1c;--s3:#242424;
   --bd:#222;--bd2:#2c2c2c;
-  --green:#00c896;--gd:#009d77;--gdim:rgba(0,200,150,.09);
-  --amber:#f5a623;--adim:rgba(245,166,35,.09);
-  --purple:#8b7cf8;--pdim:rgba(139,124,248,.09);
-  --coral:#ff6b6b;--cdim:rgba(255,107,107,.09);
-  --blue:#4da6ff;--bdim2:rgba(77,166,255,.09);
+  --green:#00c896;--gd:#009d77;--gdim:rgba(0,200,150,.1);
+  --amber:#f5a623;--adim:rgba(245,166,35,.1);
+  --purple:#8b7cf8;--pdim:rgba(139,124,248,.1);
+  --coral:#ff6b6b;--cdim:rgba(255,107,107,.1);
+  --blue:#4da6ff;--bdim2:rgba(77,166,255,.1);
   --tx:#e2e0da;--tx2:#888;--tx3:#4a4a4a;
   --mono:'IBM Plex Mono',monospace;--sans:'Sarabun',sans-serif;
-  --r:8px;--r2:12px;--r3:16px;
+  --r:6px;--r2:10px;--r3:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:var(--sans);background:var(--bg);color:var(--tx);font-size:14px;min-height:100vh}
 
-header{border-bottom:1px solid var(--bd);padding:0 28px;height:54px;display:flex;align-items:center;gap:16px;position:sticky;top:0;background:rgba(12,12,12,.96);backdrop-filter:blur(16px);z-index:100}
-.logo{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--green);letter-spacing:.07em}
+/* HEADER */
+header{border-bottom:1px solid var(--bd);padding:0 24px;height:50px;display:flex;align-items:center;gap:14px;position:sticky;top:0;background:rgba(12,12,12,.97);backdrop-filter:blur(16px);z-index:100}
+.logo{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--green);letter-spacing:.08em}
 .logo em{color:var(--tx3);font-style:normal}
-.nav{display:flex;gap:2px;margin-left:auto}
-.nb{background:none;border:none;color:var(--tx2);font-size:12px;font-family:var(--sans);padding:5px 12px;border-radius:var(--r);cursor:pointer;transition:all .15s}
-.nb:hover{color:var(--tx);background:var(--s2)}
-.nb.on{color:var(--green);background:var(--gdim)}
-.rbtn{background:var(--s2);border:1px solid var(--bd2);color:var(--tx2);font-size:11px;font-family:var(--mono);padding:4px 11px;border-radius:var(--r);cursor:pointer;transition:all .15s}
-.rbtn:hover{border-color:var(--green);color:var(--green)}
-
-main{max-width:1320px;margin:0 auto;padding:24px 28px}
-.pg{display:none}.pg.on{display:block}
-
-/* GRID */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
-
-/* STAT */
-.stat{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r2);padding:14px 16px}
-.stat-n{font-family:var(--mono);font-size:26px;font-weight:500;color:var(--green);line-height:1}
-.stat-l{font-size:10px;color:var(--tx2);margin-top:4px;letter-spacing:.05em;text-transform:uppercase}
-
-/* CARD */
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden;margin-bottom:14px}
-.ch{padding:13px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
-.ct{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
-.cb{padding:16px}
-
-/* TABLE */
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{padding:8px 10px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);border-bottom:1px solid var(--bd)}
-td{padding:9px 10px;border-bottom:1px solid var(--bd);vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--s2)}
-.klink{color:var(--tx);font-weight:500;cursor:pointer;transition:color .15s}
-.klink:hover{color:var(--green)}
-
-/* TAGS */
-.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.02em}
-.t-hi{background:var(--cdim);color:var(--coral)}
-.t-fin{background:var(--gdim);color:var(--green)}
-.t-sea{background:var(--pdim);color:var(--purple)}
-.t-rt{background:var(--adim);color:var(--amber)}
-.t-gap{background:var(--adim);color:var(--amber)}
-.t-ok{background:var(--gdim);color:var(--green)}
-.t-brand{background:var(--bdim2);color:var(--blue)}
-
-/* CHIPS */
-.chips{display:flex;flex-wrap:wrap;gap:7px}
-.chip{background:var(--s2);border:1px solid var(--bd2);border-radius:20px;padding:5px 13px;font-size:12px;color:var(--tx2);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px}
-.chip:hover{border-color:var(--green);color:var(--green);background:var(--gdim)}
-.chip-n{font-family:var(--mono);font-size:10px;color:var(--tx3)}
-
-/* PAA */
-.paa-item{padding:11px 0;border-bottom:1px solid var(--bd)}
-.paa-item:last-child{border-bottom:none}
-.paa-q{font-weight:500;color:var(--tx);display:flex;gap:8px;align-items:flex-start;margin-bottom:3px;cursor:pointer}
-.paa-q:hover .paa-text{color:var(--green)}
-.paa-badge{font-family:var(--mono);font-size:9px;font-weight:700;background:var(--pdim);color:var(--purple);padding:1px 5px;border-radius:3px;flex-shrink:0;margin-top:2px}
-.paa-kw{font-size:11px;color:var(--tx3)}
-.pain-item{padding:8px 12px;border-left:2px solid var(--coral);background:var(--cdim);border-radius:0 var(--r) var(--r) 0;margin-bottom:7px;font-size:13px;color:var(--tx)}
-
-/* NEWS */
-.news-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--bd);align-items:flex-start}
-.news-item:last-child{border-bottom:none}
-.nlabel{font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;background:var(--adim);color:var(--amber);white-space:nowrap;flex-shrink:0;letter-spacing:.02em}
-.ntitle{font-size:13px;font-weight:500;color:var(--tx)}
-.ntitle a{color:inherit;text-decoration:none;transition:color .15s}
-.ntitle a:hover{color:var(--green)}
-.nsrc{font-size:11px;color:var(--tx3);margin-top:2px}
-.nuse{font-size:11px;padding:3px 8px;border-radius:3px;border:1px solid var(--bd2);background:var(--s2);color:var(--tx2);cursor:pointer;margin-top:5px;font-family:var(--sans);transition:all .15s;display:inline-block}
-.nuse:hover{border-color:var(--amber);color:var(--amber)}
-
-/* GENERATE PANEL */
-.gpanel{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r3);padding:22px;margin-bottom:14px}
-.ghead{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);margin-bottom:16px}
-.frow{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
-.field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:180px}
-.field label{font-size:10px;font-weight:700;color:var(--tx3);letter-spacing:.06em;text-transform:uppercase}
-select,input[type=text]{background:var(--s2);border:1px solid var(--bd2);color:var(--tx);padding:8px 12px;border-radius:var(--r);font-size:13px;font-family:var(--sans);outline:none;transition:border .15s}
-select:focus,input[type=text]:focus{border-color:var(--green)}
-.gbtn{background:var(--green);color:#000;border:none;padding:9px 22px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:background .15s;white-space:nowrap}
+.kw-sel-wrap{display:flex;gap:8px;align-items:center;flex:1;max-width:500px}
+.kw-sel-wrap label{font-size:10px;font-weight:700;color:var(--tx3);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+select{background:var(--s2);border:1px solid var(--bd2);color:var(--tx);padding:6px 10px;border-radius:var(--r);font-size:12px;font-family:var(--sans);outline:none;flex:1}
+select:focus{border-color:var(--green)}
+.gbtn{background:var(--green);color:#000;border:none;padding:7px 18px;border-radius:var(--r);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);transition:background .15s;white-space:nowrap}
 .gbtn:hover{background:var(--gd)}
 .gbtn:disabled{background:var(--s3);color:var(--tx3);cursor:not-allowed}
+.nav{display:flex;gap:2px;margin-left:auto}
+.nb{background:none;border:none;color:var(--tx2);font-size:11px;font-family:var(--sans);padding:5px 12px;border-radius:var(--r);cursor:pointer;transition:all .15s}
+.nb:hover{color:var(--tx);background:var(--s2)}
+.nb.on{color:var(--green);background:var(--gdim)}
+.rbtn{background:var(--s2);border:1px solid var(--bd2);color:var(--tx2);font-size:11px;font-family:var(--mono);padding:4px 10px;border-radius:var(--r);cursor:pointer}
+.rbtn:hover{color:var(--green);border-color:var(--green)}
 
-/* 4 PILLAR GRID */
-.pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-.pillar{background:var(--s2);border-radius:var(--r2);border:1px solid var(--bd);overflow:hidden}
-.pillar-head{padding:11px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px}
-.pillar-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-.pl-hi .pillar-label{color:var(--coral)}
-.pl-fin .pillar-label{color:var(--green)}
-.pl-sea .pillar-label{color:var(--purple)}
-.pl-rt .pillar-label{color:var(--amber)}
-.pillar-topic{font-size:13px;font-weight:500;color:var(--tx);margin-left:auto;text-align:right;max-width:60%}
-.pillar-body{padding:14px}
-.gen-tabs{display:flex;gap:4px;margin-bottom:10px}
-.gtab{padding:4px 12px;border-radius:var(--r);font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--bd2);color:var(--tx2);background:none;font-family:var(--sans);transition:all .15s}
-.gtab.on{background:var(--s3);color:var(--tx);border-color:var(--bd)}
-.gen-panel{display:none}.gen-panel.on{display:block}
-.hook{font-size:13px;font-weight:600;border-left:2px solid var(--amber);padding-left:10px;margin-bottom:9px;line-height:1.55;color:var(--tx)}
-.script{font-size:12px;color:var(--tx2);line-height:1.8;white-space:pre-wrap}
-.htags{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
-.htag{font-size:10px;background:var(--pdim);color:var(--purple);padding:2px 7px;border-radius:3px;font-family:var(--mono)}
-.cpybtn{font-size:10px;padding:3px 9px;border:1px solid var(--bd2);border-radius:var(--r);background:var(--s1);color:var(--tx2);cursor:pointer;margin-top:8px;font-family:var(--mono);transition:all .15s}
-.cpybtn:hover{border-color:var(--green);color:var(--green)}
+/* MAIN */
+main{max-width:1360px;margin:0 auto;padding:20px 24px}
+.pg{display:none}.pg.on{display:block}
+
+/* SECTION LABEL */
+.sec-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:var(--r);display:inline-flex;align-items:center;gap:6px;margin-bottom:10px}
+.sl-green{background:var(--gdim);color:var(--green);border:1px solid rgba(0,200,150,.2)}
+.sl-purple{background:var(--pdim);color:var(--purple);border:1px solid rgba(139,124,248,.2)}
+.sl-amber{background:var(--adim);color:var(--amber);border:1px solid rgba(245,166,35,.2)}
+.sl-coral{background:var(--cdim);color:var(--coral);border:1px solid rgba(255,107,107,.2)}
+.sl-blue{background:var(--bdim2);color:var(--blue);border:1px solid rgba(77,166,255,.2)}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+
+/* PANEL BOX */
+.box{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r2);padding:14px 16px;margin-bottom:14px}
+
+/* CHIPS — Related Searches */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.chip{background:var(--s2);border:1px solid var(--bd2);border-radius:var(--r);padding:5px 12px;font-size:12px;color:var(--tx2);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--green);color:var(--green);background:var(--gdim)}
+
+/* PAA */
+.paa-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd);align-items:flex-start;cursor:pointer}
+.paa-item:last-child{border-bottom:none}
+.paa-item:hover .paa-q{color:var(--green)}
+.paa-num{font-family:var(--mono);font-size:10px;color:var(--tx3);margin-top:1px;flex-shrink:0}
+.paa-q{font-size:13px;font-weight:500;color:var(--tx);transition:color .15s}
 
 /* AEO */
-.aeo-item{background:var(--gdim);border:1px solid rgba(0,200,150,.15);border-radius:var(--r);padding:12px 14px;margin-bottom:8px}
-.aeo-q{font-size:12px;font-weight:600;color:var(--green);margin-bottom:5px}
-.aeo-a{font-size:12px;color:var(--tx2);line-height:1.7}
+.aeo-item{padding:12px 14px;border-left:2px solid var(--green);background:var(--gdim);border-radius:0 var(--r) var(--r) 0;margin-bottom:9px}
+.aeo-q{font-size:11px;font-weight:700;color:var(--green);margin-bottom:5px;letter-spacing:.02em}
+.aeo-q::before{content:"Q: "}
+.aeo-a{font-size:12px;color:var(--tx2);line-height:1.75}
+.aeo-a::before{content:"A: ";color:var(--tx3);font-weight:700}
 
-/* LOADING */
-.loading{text-align:center;padding:44px;color:var(--tx2);font-size:13px}
-.spin{display:inline-block;width:16px;height:16px;border:1.5px solid var(--bd2);border-top-color:var(--green);border-radius:50%;animation:sp .7s linear infinite;margin-right:8px;vertical-align:middle}
+/* PAIN POINTS */
+.pain-item{display:flex;gap:10px;padding:8px 0;align-items:flex-start;border-bottom:1px solid var(--bd)}
+.pain-item:last-child{border-bottom:none}
+.pain-dot{width:4px;height:4px;background:var(--coral);border-radius:50%;flex-shrink:0;margin-top:6px}
+.pain-text{font-size:13px;color:var(--tx2);line-height:1.5}
+
+/* TOP RESULTS */
+.result-item{padding:10px 0;border-bottom:1px solid var(--bd)}
+.result-item:last-child{border-bottom:none}
+.result-title{font-size:13px;font-weight:500;color:var(--blue);cursor:pointer;margin-bottom:3px}
+.result-title a{color:inherit;text-decoration:none}
+.result-title a:hover{color:var(--green)}
+.result-domain{font-size:10px;font-family:var(--mono);color:var(--tx3);margin-bottom:3px}
+.result-snippet{font-size:12px;color:var(--tx2);line-height:1.6}
+
+/* NEWS */
+.news-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd);align-items:flex-start}
+.news-item:last-child{border-bottom:none}
+.news-label{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;background:var(--adim);color:var(--amber);white-space:nowrap;flex-shrink:0;letter-spacing:.03em;margin-top:2px}
+.news-t{font-size:13px;font-weight:500;color:var(--tx)}
+.news-t a{color:inherit;text-decoration:none}
+.news-t a:hover{color:var(--green)}
+.news-src{font-size:11px;color:var(--tx3);margin-top:2px}
+.use-hook{font-size:10px;padding:3px 8px;border:1px solid var(--bd2);border-radius:var(--r);background:none;color:var(--tx2);cursor:pointer;margin-top:4px;font-family:var(--sans);transition:all .15s;display:inline-block}
+.use-hook:hover{border-color:var(--amber);color:var(--amber)}
+
+/* SCRIPT PAGE */
+.pillar-wrap{margin-bottom:20px}
+.pillar-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.pillar-title{font-size:15px;font-weight:600;color:var(--tx)}
+.pillar-topic{font-size:12px;color:var(--tx2);margin-left:4px}
+
+.gen-toggle{display:flex;gap:4px;margin-left:auto}
+.gtab{padding:4px 14px;border-radius:var(--r);font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--bd2);color:var(--tx2);background:none;font-family:var(--sans);transition:all .15s}
+.gtab.on{background:var(--s3);color:var(--tx);border-color:var(--bd)}
+.gpanel{display:none}.gpanel.on{display:block}
+
+.script-grid{display:grid;grid-template-columns:auto 1fr;gap:0;background:var(--s1);border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden}
+.script-row{display:contents}
+.script-row-label{background:var(--s2);border-bottom:1px solid var(--bd);border-right:1px solid var(--bd);padding:10px 12px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3);display:flex;align-items:flex-start;white-space:nowrap}
+.script-row-val{background:var(--s1);border-bottom:1px solid var(--bd);padding:10px 14px;font-size:13px;color:var(--tx);line-height:1.75}
+.script-row:last-child .script-row-label,
+.script-row:last-child .script-row-val{border-bottom:none}
+.hook-val{font-size:14px;font-weight:600;color:var(--tx);border-left:3px solid var(--amber);padding-left:12px;line-height:1.55}
+.script-val{color:var(--tx2);white-space:pre-wrap;font-size:12px}
+.kw-val{display:flex;flex-wrap:wrap;gap:5px}
+.kw-pill{font-size:11px;font-family:var(--mono);background:var(--bdim2);color:var(--blue);padding:2px 8px;border-radius:3px}
+.hash-val{display:flex;flex-wrap:wrap;gap:5px}
+.hash-pill{font-size:11px;font-family:var(--mono);background:var(--pdim);color:var(--purple);padding:2px 8px;border-radius:3px}
+
+.copy-row{padding:8px 14px;background:var(--s2);display:flex;gap:8px;align-items:center;border-top:1px solid var(--bd)}
+.cpybtn{font-size:10px;padding:3px 10px;border:1px solid var(--bd2);border-radius:var(--r);background:none;color:var(--tx2);cursor:pointer;font-family:var(--mono);transition:all .15s}
+.cpybtn:hover{border-color:var(--green);color:var(--green)}
+
+/* LOADING / EMPTY */
+.loading{text-align:center;padding:40px;color:var(--tx2);font-size:12px}
+.spin{display:inline-block;width:14px;height:14px;border:1.5px solid var(--bd2);border-top-color:var(--green);border-radius:50%;animation:sp .7s linear infinite;margin-right:8px;vertical-align:middle}
 @keyframes sp{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:32px;color:var(--tx3);font-size:12px}
+.empty{text-align:center;padding:28px;color:var(--tx3);font-size:12px}
 .err{color:var(--coral);font-size:12px;padding:10px 0}
+.setup-banner{background:var(--adim);border:1px solid rgba(245,166,35,.2);border-radius:var(--r);padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--amber);display:none}
+.setup-banner.show{display:block}
 
-.setup{background:var(--adim);border:1px solid rgba(245,166,35,.2);border-radius:var(--r);padding:13px 16px;margin-bottom:18px;font-size:12px;color:var(--amber);display:none}
-.setup.show{display:block}
-
-@media(max-width:768px){
-  .g2,.g3,.g4,.pillar-grid{grid-template-columns:1fr}
-  main{padding:14px}
-  header{padding:0 14px}
-  .frow{flex-direction:column}
+@media(max-width:900px){
+  .g2,.g3{grid-template-columns:1fr}
+  main{padding:12px}
+  header{flex-wrap:wrap;height:auto;padding:10px 14px;gap:8px}
+  .kw-sel-wrap{max-width:100%;width:100%}
+  .nav{order:3;width:100%}
 }
 </style>
 </head>
 <body>
+
 <header>
-  <div class="logo">content<em>/</em>radar <em style="font-size:10px;margin-left:4px">tidlor</em></div>
+  <div class="logo">content<em>/</em>radar <em style="font-size:9px;margin-left:3px">tidlor</em></div>
+  <div class="kw-sel-wrap">
+    <label>Keyword</label>
+    <select id="sel-kw" onchange="onKwChange()"><option value="">— เลือก —</option></select>
+    <button class="gbtn" id="gbtn" onclick="generate()">Generate Script</button>
+  </div>
   <nav class="nav">
-    <button class="nb on"  onclick="sp('kw')">Keywords</button>
-    <button class="nb" onclick="sp('pain')">Pain + AEO</button>
-    <button class="nb" onclick="sp('rank')">Top Rank</button>
-    <button class="nb" onclick="sp('news')">News Hook</button>
-    <button class="nb" onclick="sp('gen')">Script Ideas</button>
+    <button class="nb on"  onclick="sp('research')">Research</button>
+    <button class="nb"     onclick="sp('script')">Script Ideas</button>
+    <button class="nb"     onclick="sp('news')">News Hook</button>
   </nav>
   <button class="rbtn" onclick="loadData()">↻</button>
 </header>
 
 <main>
-<div id="setup-banner" class="setup">ตั้งค่า APPS_SCRIPT_URL ก่อนใช้งาน</div>
+<div id="setup-banner" class="setup-banner">ตั้งค่า APPS_SCRIPT_URL ก่อนใช้งาน</div>
 
-<div class="g4">
-  <div class="stat"><div class="stat-n" id="s-kw">—</div><div class="stat-l">Keywords</div></div>
-  <div class="stat"><div class="stat-n" id="s-paa">—</div><div class="stat-l">PAA / Pain</div></div>
-  <div class="stat"><div class="stat-n" id="s-gap">—</div><div class="stat-l">SERP Gap</div></div>
-  <div class="stat"><div class="stat-n" id="s-news">—</div><div class="stat-l">ข่าววันนี้</div></div>
-</div>
+<!-- RESEARCH PAGE -->
+<div id="pg-research" class="pg on">
+  <div id="research-loading" class="loading"><span class="spin"></span>กำลังโหลดข้อมูล...</div>
+  <div id="research-content" style="display:none">
 
-<!-- KEYWORDS -->
-<div id="pg-kw" class="pg on">
-  <div class="card">
-    <div class="ch"><span class="ct">Keyword List — เรียงตาม demand</span><span style="font-size:11px;color:var(--tx3)">คลิก → Script Ideas</span></div>
-    <div id="kw-body"><div class="loading"><span class="spin"></span>กำลังโหลด...</div></div>
-  </div>
-</div>
-
-<!-- PAIN + AEO -->
-<div id="pg-pain" class="pg">
-  <div class="g2">
-    <div class="card">
-      <div class="ch"><span class="ct">Pain Points — จาก PAA</span></div>
-      <div class="cb" id="pain-body"><div class="loading"><span class="spin"></span></div></div>
-    </div>
-    <div class="card">
-      <div class="ch"><span class="ct">People Also Ask</span></div>
-      <div class="cb" style="padding:0 16px" id="paa-body"><div class="loading"><span class="spin"></span></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- TOP RANK -->
-<div id="pg-rank" class="pg">
-  <div class="card">
-    <div class="ch"><span class="ct">Top Rank — เช็ค SERP gap</span><span style="font-size:11px;color:var(--amber)">สีส้ม = เราไม่ติด top 3</span></div>
-    <div id="rank-body"><div class="loading"><span class="spin"></span>กำลังโหลด...</div></div>
-  </div>
-</div>
-
-<!-- NEWS HOOK -->
-<div id="pg-news" class="pg">
-  <div class="card">
-    <div class="ch"><span class="ct">Situation Hook — ข่าววันนี้</span></div>
-    <div class="cb" style="padding:0 16px" id="news-body"><div class="loading"><span class="spin"></span></div></div>
-  </div>
-</div>
-
-<!-- SCRIPT IDEAS -->
-<div id="pg-gen" class="pg">
-  <div class="gpanel">
-    <div class="ghead">Script Ideas — 4 Pillar × Gen Y/Z</div>
-    <div class="frow">
-      <div class="field"><label>Keyword</label><select id="sel-kw"><option value="">— เลือก keyword —</option></select></div>
-      <div class="field"><label>Situation Hook (ไม่บังคับ)</label><input type="text" id="inp-hook" placeholder="วางหัวข้อข่าวที่อยากผูก"></div>
-      <button class="gbtn" id="gbtn" onclick="generate()">Generate</button>
-    </div>
-    <div id="gen-loading" style="display:none" class="loading"><span class="spin"></span>Gemini กำลังสร้าง script...</div>
-    <div id="gen-error" class="err" style="display:none"></div>
-
-    <div id="gen-out" style="display:none">
-      <!-- Pain + AEO summary -->
-      <div class="g2" style="margin-bottom:12px">
-        <div>
-          <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">Pain Points</div>
-          <div id="out-pain"></div>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">AEO Answers</div>
-          <div id="out-aeo"></div>
-        </div>
+    <!-- Row 1: Related + PAA -->
+    <div class="g2">
+      <div>
+        <div class="sec-label sl-green">Related Searches + Autocomplete</div>
+        <div class="box" style="padding:12px 14px"><div class="chips" id="r-chips"></div></div>
       </div>
-      <!-- 4 Pillars -->
-      <div class="pillar-grid" id="out-pillars"></div>
+      <div>
+        <div class="sec-label sl-purple">People Also Ask</div>
+        <div class="box" style="padding:0 14px"><div id="r-paa"></div></div>
+      </div>
     </div>
+
+    <!-- Row 2: AEO + Pain + Top Results -->
+    <div class="g3">
+      <div>
+        <div class="sec-label sl-green">AEO Answers (AI Search Optimized)</div>
+        <div class="box" style="padding:0 14px 6px"><div id="r-aeo"></div></div>
+      </div>
+      <div>
+        <div class="sec-label sl-coral">Pain Points</div>
+        <div class="box" style="padding:0 14px"><div id="r-pain"></div></div>
+      </div>
+      <div>
+        <div class="sec-label sl-blue">Top Google Results</div>
+        <div class="box" style="padding:0 14px"><div id="r-results"></div></div>
+      </div>
+    </div>
+
   </div>
+  <div id="research-error" class="err" style="display:none"></div>
+</div>
+
+<!-- SCRIPT IDEAS PAGE -->
+<div id="pg-script" class="pg">
+  <div id="script-loading" style="display:none" class="loading"><span class="spin"></span>Gemini กำลังสร้าง script...</div>
+  <div id="script-error" class="err" style="display:none"></div>
+  <div id="script-content" style="display:none">
+    <!-- 4 Pillars rendered here -->
+  </div>
+  <div id="script-empty" class="empty">เลือก keyword แล้วกด Generate Script ครับ</div>
+</div>
+
+<!-- NEWS HOOK PAGE -->
+<div id="pg-news" class="pg">
+  <div class="sec-label sl-amber">Situation Hook — ข่าววันนี้</div>
+  <div class="box" style="padding:0 14px"><div id="n-list"><div class="loading"><span class="spin"></span></div></div></div>
 </div>
 
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcBGRrNmBabLG65_5XbXVIkAgtHWC-nc05MWsBzkZyopa0cx6X5KejD0mDFiGbr67n/exec";  // ← วาง URL ตรงนี้
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxf9J1SytofKXX9vv4HLdJD2eBG1k4nRMZubW0yEgbGbOaDNvzypjN7qhL4q0Nhafy/exec";  // ← วาง Apps Script Web App URL
 
-let DATA = {};
+let DATA = {}, GENERATED = null;
+
 if (!APPS_SCRIPT_URL) document.getElementById('setup-banner').classList.add('show');
 
+// ── Navigation ────────────────────────────────────────────────
 function sp(p) {
-  document.querySelectorAll('.pg').forEach(el => el.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(el => el.classList.remove('on'));
+  document.querySelectorAll('.pg').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(el=>el.classList.remove('on'));
   document.getElementById('pg-'+p).classList.add('on');
   event.target.classList.add('on');
 }
 
+// ── JSONP ─────────────────────────────────────────────────────
 function callApi(params, cb) {
-  if (!APPS_SCRIPT_URL) { cb(null,'ยังไม่ได้ตั้งค่า APPS_SCRIPT_URL'); return; }
+  if (!APPS_SCRIPT_URL) { cb(null,'ยังไม่ได้ตั้งค่า URL'); return; }
   const name = 'cb_'+Date.now();
   params.callback = name;
   const qs = Object.entries(params).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
-  window[name] = d => { delete window[name]; sc.remove(); d.success ? cb(d.data,null) : cb(null,d.error); };
+  window[name] = d => { delete window[name]; sc.remove(); d.success?cb(d.data,null):cb(null,d.error); };
   const sc = Object.assign(document.createElement('script'),{src:APPS_SCRIPT_URL+'?'+qs,onerror:()=>cb(null,'Network error')});
   document.head.appendChild(sc);
 }
 
+// ── Load dashboard data ───────────────────────────────────────
 function loadData() {
-  document.getElementById('kw-body').innerHTML = '<div class="loading"><span class="spin"></span>กำลังโหลด...</div>';
+  document.getElementById('research-loading').style.display = 'block';
+  document.getElementById('research-content').style.display = 'none';
   callApi({action:'dashboard'}, (d,err) => {
-    if (err) { document.getElementById('kw-body').innerHTML='<div class="empty">Error: '+err+'</div>'; return; }
+    document.getElementById('research-loading').style.display = 'none';
+    if (err) {
+      document.getElementById('research-error').style.display='block';
+      document.getElementById('research-error').textContent='Error: '+err; return;
+    }
     DATA = d;
-    renderAll(d);
+    populateSel(d.keywords||[]);
+    renderNews(d.news||[]);
+    // show research with first keyword data
+    if ((d.keywords||[]).length) {
+      document.getElementById('sel-kw').value = d.keywords[0].keyword;
+      renderResearch(d.keywords[0].keyword);
+    }
+    document.getElementById('research-content').style.display = 'block';
   });
 }
 
-function renderAll(d) {
-  const kws  = d.keywords || [];
-  const paas = d.paa      || [];
-  const serp = d.serp     || [];
-  const news = d.news     || [];
-  const gaps = serp.filter(s => !s.hasTidlor).length;
-
-  document.getElementById('s-kw').textContent   = kws.length;
-  document.getElementById('s-paa').textContent  = paas.length;
-  document.getElementById('s-gap').textContent  = gaps;
-  document.getElementById('s-news').textContent = news.length;
-
-  renderKw(kws);
-  renderPainPaa(paas);
-  renderRank(serp);
-  renderNews(news);
-  populateSel(kws);
+function populateSel(kws) {
+  const s = document.getElementById('sel-kw');
+  const cur = s.value;
+  s.innerHTML = '<option value="">— เลือก keyword —</option>' +
+    kws.map(k=>`<option value="${esc(k.keyword)}">${k.keyword} (${k.freq}×)</option>`).join('');
+  if (cur) s.value = cur;
 }
 
-// ── Keywords ──────────────────────────────────────────────────
-function renderKw(kws) {
-  if (!kws.length) { document.getElementById('kw-body').innerHTML='<div class="empty">ยังไม่มีข้อมูล</div>'; return; }
-  const rows = kws.map((k,i) => `
-    <tr>
-      <td style="color:var(--tx3);font-family:var(--mono);font-size:10px;width:24px">${i+1}</td>
-      <td><span class="klink" onclick="pickKw('${esc(k.keyword)}')">${k.keyword}</span></td>
-      <td>${groupTag(k.group)}</td>
-      <td><span style="font-family:var(--mono);font-size:11px;color:var(--green)">${k.freq}×</span></td>
-    </tr>`).join('');
-  document.getElementById('kw-body').innerHTML = `
-    <table>
-      <thead><tr><th>#</th><th>Keyword</th><th>Group</th><th>Freq</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`;
+function onKwChange() {
+  const kw = document.getElementById('sel-kw').value;
+  if (kw) renderResearch(kw);
 }
 
-function groupTag(g) {
-  if (!g) return '';
-  const m = {brand:'t-brand',product:'t-fin',high_intent:'t-hi',general:'',seasonal:'t-sea'};
-  return g ? `<span class="tag ${m[g]||''}">${g}</span>` : '';
-}
-
-// ── Pain + PAA ────────────────────────────────────────────────
-function renderPainPaa(paas) {
-  const painEl = document.getElementById('pain-body');
-  const paaEl  = document.getElementById('paa-body');
-  if (!paas.length) {
-    painEl.innerHTML = paaEl.innerHTML = '<div class="empty">ยังไม่มีข้อมูล</div>';
-    return;
-  }
-  // pain = keyword + question grouped เป็น pain point
-  const byKw = {};
-  paas.forEach(p => { if (!byKw[p.keyword]) byKw[p.keyword]=[]; byKw[p.keyword].push(p.question); });
-  painEl.innerHTML = Object.entries(byKw).slice(0,8).map(([kw,qs]) =>
-    qs.map(q => `<div class="pain-item">${q}<div style="font-size:10px;color:var(--tx3);margin-top:2px">${kw}</div></div>`).join('')
+// ── Render Research ───────────────────────────────────────────
+function renderResearch(kw) {
+  // Chips: autocomplete suggest for this keyword
+  const kwData = (DATA.keywords||[]).filter(k=>k.keyword.includes(kw.split(' ')[0])).slice(0,12);
+  const allKws = (DATA.keywords||[]).slice(0,16);
+  const chips  = allKws.map(k=>
+    `<span class="chip" onclick="quickKw('${esc(k.keyword)}')">${k.keyword}</span>`
   ).join('');
+  document.getElementById('r-chips').innerHTML = chips || '<span style="color:var(--tx3);font-size:12px">ยังไม่มีข้อมูล</span>';
 
-  paaEl.innerHTML = paas.slice(0,15).map(p => `
-    <div class="paa-item">
-      <div class="paa-q" onclick="pickKw('${esc(p.keyword)}')">
-        <span class="paa-badge">Q</span>
-        <span class="paa-text">${p.question}</span>
-      </div>
-      <div class="paa-kw">${p.keyword}</div>
-    </div>`).join('');
+  // PAA
+  const paas = (DATA.paa||[]).filter(p=>p.keyword===kw).slice(0,6);
+  if (!paas.length) {
+    document.getElementById('r-paa').innerHTML = '<div class="empty">ไม่พบ PAA สำหรับ keyword นี้</div>';
+  } else {
+    document.getElementById('r-paa').innerHTML = paas.map((p,i)=>`
+      <div class="paa-item" onclick="usePaaAsHook('${esc(p.question)}')">
+        <span class="paa-num">${i+1}</span>
+        <span class="paa-q">${p.question}</span>
+      </div>`).join('');
+  }
+
+  // AEO — show if generated, else placeholder
+  renderAeoPlaceholder(kw);
+
+  // Pain — from PAA questions grouped
+  const allPaa = (DATA.paa||[]).filter(p=>p.keyword===kw).slice(0,5);
+  if (!allPaa.length) {
+    document.getElementById('r-pain').innerHTML = '<div class="empty">กด Generate เพื่อดู Pain Points</div>';
+  } else {
+    document.getElementById('r-pain').innerHTML = allPaa.map(p=>`
+      <div class="pain-item"><div class="pain-dot"></div><div class="pain-text">${p.question}</div></div>
+    `).join('');
+  }
+
+  // Top Results — from SERP
+  const serpData = (DATA.serp||[]).find(s=>s.keyword===kw);
+  if (!serpData || !serpData.top3.length) {
+    document.getElementById('r-results').innerHTML = '<div class="empty">ไม่พบข้อมูล SERP</div>';
+  } else {
+    document.getElementById('r-results').innerHTML = serpData.top3.map(r=>`
+      <div class="result-item">
+        <div class="result-domain">${r.domain}</div>
+        <div class="result-title"><a href="${r.url||'#'}" target="_blank">${r.title}</a></div>
+        ${r.snippet?`<div class="result-snippet">${r.snippet.slice(0,120)}...</div>`:''}
+      </div>`).join('');
+  }
+
+  document.getElementById('research-content').style.display = 'block';
 }
 
-// ── SERP Top Rank ─────────────────────────────────────────────
-function renderRank(serp) {
-  if (!serp.length) { document.getElementById('rank-body').innerHTML='<div class="empty">ยังไม่มีข้อมูล</div>'; return; }
-  const rows = serp.map(s => {
-    const top3html = s.top3.map(t =>
-      `<div style="font-size:11px;color:var(--tx2)"><span style="font-family:var(--mono);color:var(--tx3);margin-right:4px">#${t.rank}</span>${t.domain}</div>`
-    ).join('');
-    const status = s.hasTidlor
-      ? `<span class="tag t-ok">rank ${s.tidlorRank}</span>`
-      : `<span class="tag t-gap">ไม่ติด top 3</span>`;
-    return `<tr>
-      <td><span class="klink" onclick="pickKw('${esc(s.keyword)}')">${s.keyword}</span></td>
-      <td>${top3html}</td>
-      <td>${status}</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('rank-body').innerHTML = `
-    <table>
-      <thead><tr><th>Keyword</th><th>Top 3 domains</th><th>เงินติดล้อ</th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`;
+function renderAeoPlaceholder(kw) {
+  if (GENERATED && GENERATED.keyword === kw && GENERATED.aeo_answers) {
+    renderAeo(GENERATED.aeo_answers);
+  } else {
+    document.getElementById('r-aeo').innerHTML = '<div class="empty" style="padding:20px">กด Generate Script เพื่อดู AEO Answers</div>';
+  }
 }
 
-// ── News Hook ─────────────────────────────────────────────────
+function renderAeo(aeos) {
+  document.getElementById('r-aeo').innerHTML = (aeos||[]).map(a=>`
+    <div class="aeo-item" style="margin-top:8px">
+      <div class="aeo-q">${a.question||''}</div>
+      <div class="aeo-a">${a.answer||''}</div>
+    </div>`).join('') || '<div class="empty">ไม่มีข้อมูล</div>';
+}
+
+// ── News ──────────────────────────────────────────────────────
 function renderNews(news) {
-  if (!news.length) { document.getElementById('news-body').innerHTML='<div class="empty">ยังไม่มีข่าว</div>'; return; }
-  document.getElementById('news-body').innerHTML = news.map(n => `
+  if (!news.length) { document.getElementById('n-list').innerHTML='<div class="empty">ยังไม่มีข่าว</div>'; return; }
+  document.getElementById('n-list').innerHTML = news.map(n=>`
     <div class="news-item">
-      <span class="nlabel">${n.label}</span>
+      <span class="news-label">${n.label}</span>
       <div>
-        <div class="ntitle">${n.link?`<a href="${n.link}" target="_blank">${n.title}</a>`:n.title}</div>
-        <div class="nsrc">${n.source||''}</div>
-        <span class="nuse" onclick="useHook('${esc(n.title)}')">ใช้เป็น hook</span>
+        <div class="news-t">${n.link?`<a href="${n.link}" target="_blank">${n.title}</a>`:n.title}</div>
+        <div class="news-src">${n.source||''}</div>
+        <button class="use-hook" onclick="useNewsHook('${esc(n.title)}')">ใช้เป็น hook →</button>
       </div>
     </div>`).join('');
+}
+
+function useNewsHook(title) {
+  document.getElementById('sel-kw').dispatchEvent(new Event('change'));
+  // store hook and auto-generate
+  window._pendingHook = title;
+  if (document.getElementById('sel-kw').value) generate(title);
+}
+
+function usePaaAsHook(q) {
+  window._pendingHook = q;
+}
+
+function quickKw(kw) {
+  document.getElementById('sel-kw').value = kw;
+  renderResearch(kw);
 }
 
 // ── Generate 4 Pillars ────────────────────────────────────────
-function populateSel(kws) {
-  const s = document.getElementById('sel-kw');
-  s.innerHTML = '<option value="">— เลือก keyword —</option>' +
-    kws.map(k=>`<option value="${esc(k.keyword)}">${k.keyword} (${k.freq}×)</option>`).join('');
-}
-
-function pickKw(kw) {
-  sp('gen');
-  document.querySelectorAll('.nb').forEach((el,i)=>el.classList.toggle('on',i===4));
-  const s=document.getElementById('sel-kw');
-  for(let o of s.options){if(o.value===kw){s.value=kw;break;}}
-}
-
-function useHook(title) {
-  sp('gen');
-  document.querySelectorAll('.nb').forEach((el,i)=>el.classList.toggle('on',i===4));
-  document.getElementById('inp-hook').value = title;
-}
-
-function generate() {
+function generate(hookOverride) {
   const kw   = document.getElementById('sel-kw').value;
-  const hook = document.getElementById('inp-hook').value;
+  const hook = hookOverride || window._pendingHook || '';
   if (!kw) { alert('กรุณาเลือก keyword ก่อนครับ'); return; }
 
-  document.getElementById('gen-out').style.display     = 'none';
-  document.getElementById('gen-error').style.display   = 'none';
-  document.getElementById('gen-loading').style.display = 'block';
+  // switch to script page
+  sp('script');
+  document.querySelectorAll('.nb').forEach((el,i)=>el.classList.toggle('on',i===1));
+
+  document.getElementById('script-loading').style.display = 'block';
+  document.getElementById('script-content').style.display = 'none';
+  document.getElementById('script-empty').style.display   = 'none';
+  document.getElementById('script-error').style.display   = 'none';
   document.getElementById('gbtn').disabled = true;
 
   callApi({action:'generate', keyword:kw, hook:hook}, (res,err) => {
-    document.getElementById('gen-loading').style.display = 'none';
+    document.getElementById('script-loading').style.display = 'none';
     document.getElementById('gbtn').disabled = false;
+    window._pendingHook = '';
     if (err) {
-      document.getElementById('gen-error').style.display = 'block';
-      document.getElementById('gen-error').textContent   = 'Error: '+err;
-      return;
+      document.getElementById('script-error').style.display='block';
+      document.getElementById('script-error').textContent='Error: '+err; return;
     }
-    renderGenOut(res);
-    document.getElementById('gen-out').style.display = 'block';
+    GENERATED = { ...res, keyword: kw };
+    renderScripts(res, kw);
+    renderAeo(res.aeo_answers);
+    // update pain if available
+    if (res.pain_points) {
+      document.getElementById('r-pain').innerHTML = (res.pain_points||[]).map(p=>`
+        <div class="pain-item"><div class="pain-dot"></div><div class="pain-text">${p}</div></div>`).join('');
+    }
+    document.getElementById('script-content').style.display = 'block';
   });
 }
 
+// ── Render 4 Pillar Scripts ───────────────────────────────────
 const PILLARS = [
-  {key:'high_intent', label:'High Intent', cls:'pl-hi'},
-  {key:'fin_ed',      label:'Fin-ed',      cls:'pl-fin'},
-  {key:'seasonal',    label:'Seasonal',    cls:'pl-sea'},
-  {key:'realtime',    label:'Realtime',    cls:'pl-rt'},
+  {key:'high_intent', label:'High Intent',  color:'var(--coral)',  slcls:'sl-coral'},
+  {key:'fin_ed',      label:'Fin-ed',        color:'var(--green)',  slcls:'sl-green'},
+  {key:'seasonal',    label:'Seasonal',      color:'var(--purple)', slcls:'sl-purple'},
+  {key:'realtime',    label:'News Hook',     color:'var(--amber)',  slcls:'sl-amber'},
 ];
 
-function renderGenOut(r) {
-  // Pain Points
-  document.getElementById('out-pain').innerHTML =
-    (r.pain_points||[]).map(p=>`<div class="pain-item">${p}</div>`).join('') ||
-    '<div class="empty">ไม่มีข้อมูล</div>';
-
-  // AEO
-  document.getElementById('out-aeo').innerHTML =
-    (r.aeo_answers||[]).map(a=>`
-      <div class="aeo-item">
-        <div class="aeo-q">${a.question||''}</div>
-        <div class="aeo-a">${a.answer||''}</div>
-      </div>`).join('') || '<div class="empty">ไม่มีข้อมูล</div>';
-
-  // 4 Pillars
-  document.getElementById('out-pillars').innerHTML = PILLARS.map(p => {
+function renderScripts(r, kw) {
+  const html = PILLARS.map(p => {
     const d = r[p.key] || {};
     return `
-      <div class="pillar ${p.cls}">
+      <div class="pillar-wrap">
         <div class="pillar-head">
-          <span class="pillar-label">${p.label}</span>
-          <span class="pillar-topic">${d.topic||''}</span>
-        </div>
-        <div class="pillar-body">
-          <div class="gen-tabs">
-            <button class="gtab on" onclick="swGen(this,'gy-${p.key}')">Gen Y</button>
-            <button class="gtab" onclick="swGen(this,'gz-${p.key}')">Gen Z</button>
+          <div class="sec-label ${p.slcls}">${p.label}</div>
+          <div class="pillar-topic">${d.topic||''}</div>
+          <div class="gen-toggle" id="toggle-${p.key}">
+            <button class="gtab on" onclick="swGen(this,'gy-${p.key}','toggle-${p.key}')">Gen Y</button>
+            <button class="gtab"    onclick="swGen(this,'gz-${p.key}','toggle-${p.key}')">Gen Z</button>
           </div>
-          <div id="gy-${p.key}" class="gen-panel on">${mkScript(p.key,'y',d.gen_y)}</div>
-          <div id="gz-${p.key}" class="gen-panel">${mkScript(p.key,'z',d.gen_z)}</div>
         </div>
+        <div id="gy-${p.key}" class="gpanel on">${mkScript(p.key,'y',d.gen_y,kw)}</div>
+        <div id="gz-${p.key}" class="gpanel">${mkScript(p.key,'z',d.gen_z,kw)}</div>
       </div>`;
   }).join('');
+  document.getElementById('script-content').innerHTML = html;
 }
 
-function swGen(btn, panelId) {
-  const pillar = btn.closest('.pillar');
-  pillar.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
-  pillar.querySelectorAll('.gen-panel').forEach(p => p.classList.remove('on'));
+function swGen(btn, panelId, toggleId) {
+  document.querySelectorAll('#'+toggleId+' .gtab').forEach(b=>b.classList.remove('on'));
+  const wrap = document.getElementById(panelId).closest('.pillar-wrap');
+  wrap.querySelectorAll('.gpanel').forEach(p=>p.classList.remove('on'));
   btn.classList.add('on');
   document.getElementById(panelId).classList.add('on');
 }
 
-function mkScript(key, gen, s) {
+function mkScript(key, gen, s, kw) {
   if (!s) return '<div class="empty">ไม่มีข้อมูล</div>';
-  const id = key+gen;
-  const full = `Hook: ${s.hook}\n\nScript:\n${s.script}\n\nHashtags: ${(s.hashtags||[]).join(' ')}`;
+  const id  = key+gen+Date.now();
+  const kwPills = (s.seo_keywords||[kw]).map(k=>`<span class="kw-pill">${k}</span>`).join('');
+  const hashPills = (s.hashtags||[]).map(h=>`<span class="hash-pill">${h}</span>`).join('');
+  const full = `[Hook]\n${s.hook}\n\n[Script 1 นาที]\n${s.script}\n\n[SEO Keywords]\n${(s.seo_keywords||[]).join(', ')}\n\n[Hashtags]\n${(s.hashtags||[]).join(' ')}`;
   return `
-    <div class="hook">"${s.hook||''}"</div>
-    <div class="script">${s.script||''}</div>
-    <div class="htags">${(s.hashtags||[]).map(h=>`<span class="htag">${h}</span>`).join('')}</div>
-    <button class="cpybtn" onclick="cpy('${id}',\`${full.replace(/`/g,'\\`')}\`)">copy</button>`;
+    <div class="script-grid">
+      <div class="script-row">
+        <div class="script-row-label" style="color:var(--amber)">Hook<br><span style="font-size:8px;color:var(--tx3)">3–5 วินาที</span></div>
+        <div class="script-row-val"><div class="hook-val">"${s.hook||''}"</div></div>
+      </div>
+      <div class="script-row">
+        <div class="script-row-label">Script<br><span style="font-size:8px;color:var(--tx3)">1 นาที</span></div>
+        <div class="script-row-val"><div class="script-val">${s.script||''}</div></div>
+      </div>
+      <div class="script-row">
+        <div class="script-row-label">SEO<br><span style="font-size:8px;color:var(--tx3)">Keywords</span></div>
+        <div class="script-row-val"><div class="kw-val">${kwPills||`<span class="kw-pill">${kw}</span>`}</div></div>
+      </div>
+      <div class="script-row">
+        <div class="script-row-label">Hashtags</div>
+        <div class="script-row-val"><div class="hash-val">${hashPills}</div></div>
+      </div>
+    </div>
+    <div class="copy-row">
+      <button class="cpybtn" onclick="cpy('${id}',\`${full.replace(/`/g,'\\`').replace(/\$/g,'\\$')}\`)">copy script</button>
+    </div>`;
 }
 
 function cpy(id, txt) {
-  navigator.clipboard.writeText(txt).then(() => {
-    const b = document.querySelector(`[onclick*="cpy('${id}"]`);
-    if (b) { b.textContent='copied!'; setTimeout(()=>b.textContent='copy',1800); }
+  navigator.clipboard.writeText(txt).then(()=>{
+    const b=document.querySelector(`[onclick*="${id}"]`);
+    if(b){b.textContent='copied!';setTimeout(()=>b.textContent='copy script',1800);}
   });
 }
 
-function esc(s){ return String(s).replace(/'/g,"\\'"); }
+function esc(s){return String(s).replace(/'/g,"\\'").replace(/`/g,'\\`');}
 
 window.onload = loadData;
 </script>

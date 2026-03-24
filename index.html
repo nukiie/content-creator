@@ -167,7 +167,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
     <div class="logo">content<em>/</em>radar <em style="font-size:10px;margin-left:3px">tidlor</em></div>
     <div class="kbar">
       <label>Keyword</label>
-      <select id="kw" onchange="CUR_KW=this.value">
+      <select id="kw" onchange="resetGen(this.value)">
         <option value="all">All Keywords</option>
       </select>
       <button class="lbtn" onclick="loadKw()">โหลด</button>
@@ -214,14 +214,14 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
   <div id="news-3" style="display:flex;flex-direction:column;gap:0;background:var(--s1);border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden"></div>
 </div>
 
-<!-- ROW 3: Keyword Suggestions
+<!-- ROW 3: Keyword Suggestions -->
 <div class="sec">
   Keyword แนะนำจาก Gemini
   <button class="lbtn" onclick="loadSuggest()" id="suggest-btn">วิเคราะห์ keyword</button>
 </div>
 <div id="suggest-area">
   <div class="hint">กด "วิเคราะห์ keyword" เพื่อให้ Gemini แนะนำ keyword ที่ควรทำ content จาก data วันนี้</div>
-</div> -->
+</div>
 
 <!-- ROW 4: Content Generator -->
 <div class="sec" style="margin-top:20px">Content Generator</div>
@@ -254,7 +254,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3Tq29jFtGoIaJa3t57nrrCEY6ACK3a1FSfoDaqVKVtxUH57tVErJEdkL4KMMPA4HL/exec";  // ← วาง URL ตรงนี้
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyg4TFr8O5kCLFVyfx9I7KNacagHkk7kpumZMfwBS_L8D65GIkyr0fob107z5QvAd1N/exec";  // ← วาง URL ตรงนี้
 
 let CUR_KW = "all";
 
@@ -291,6 +291,10 @@ function init() {
 // ── Load keyword data — ac first, then serp+paa with kwlist ─
 function loadKw() {
   CUR_KW = document.getElementById('kw').value;
+  // ซ่อน output เดิมทุกครั้งที่โหลด keyword ใหม่
+  document.getElementById('gen-out').style.display   = 'none';
+  document.getElementById('gen-hint').style.display  = 'block';
+  document.getElementById('gen-err').style.display   = 'none';
   setLoad(['ac-body','serp-body','paa-body']);
 
   // 1. โหลด autocomplete ก่อน → ได้ keyword list
@@ -529,6 +533,15 @@ function cpy(btn,txt) {
 function setLoad(ids){ ids.forEach(id=>{ document.getElementById(id).innerHTML='<div class="loading"><span class="spin"></span></div>'; }); }
 function setEmpty(id){ document.getElementById(id).innerHTML='<div class="empty">ไม่มีข้อมูล</div>'; }
 function esc(s){ return String(s).replace(/'/g,"\\'").replace(/`/g,'\\`'); }
+
+
+function resetGen(v) {
+  CUR_KW = v;
+  document.getElementById('gen-out').style.display  = 'none';
+  document.getElementById('gen-hint').style.display = 'block';
+  document.getElementById('gen-err').style.display  = 'none';
+  document.getElementById('gbtn').disabled = false;
+}
 
 window.onload = init;
 </script>

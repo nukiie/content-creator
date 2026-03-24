@@ -179,7 +179,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 <main>
 <div id="setup-banner" class="setup">ตั้งค่า APPS_SCRIPT_URL ก่อนใช้งาน</div>
 
-<!-- STATS -->
 <div class="stats">
   <div class="stat"><div class="sn" id="s-ac">—</div><div class="sl">Autocomplete</div></div>
   <div class="stat"><div class="sn" id="s-pa">—</div><div class="sl">PAA</div></div>
@@ -187,7 +186,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
   <div class="stat"><div class="sn" id="s-nw">—</div><div class="sl">News</div></div>
 </div>
 
-<!-- ROW 1: Autocomplete + SERP + PAA -->
 <div class="grid3">
   <div class="card">
     <div class="ch"><span class="ct">Autocomplete Top 10</span></div>
@@ -203,7 +201,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
   </div>
 </div>
 
-<!-- ROW 2: News -->
 <div class="sec">
   News Hook วันนี้
   <span style="font-size:10px;font-weight:400;color:var(--tx3)">คลิกเพื่อใช้เป็น situation hook</span>
@@ -214,7 +211,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
   <div id="news-3" style="display:flex;flex-direction:column;gap:0;background:var(--s1);border:1px solid var(--bd);border-radius:var(--r2);overflow:hidden"></div>
 </div>
 
-<!-- ROW 3: Keyword Suggestions -->
 <div class="sec">
   Keyword แนะนำจาก Gemini
   <button class="lbtn" onclick="loadSuggest()" id="suggest-btn">วิเคราะห์ keyword</button>
@@ -223,16 +219,22 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
   <div class="hint">กด "วิเคราะห์ keyword" เพื่อให้ Gemini แนะนำ keyword ที่ควรทำ content จาก data วันนี้</div>
 </div>
 
-<!-- ROW 4: Content Generator -->
 <div class="sec" style="margin-top:20px">Content Generator</div>
 <div class="gen-wrap">
   <div class="gen-top">
+    <div class="field">
+      <label>Keyword สำหรับปั้น Content</label>
+      <input type="text" id="gen-kw" class="finput" placeholder="พิมพ์หรือเลือกจากด้านบน">
+    </div>
+    <div class="field">
+      <label>News Hook (Optional)</label>
+      <input type="text" id="gen-hook" class="finput" placeholder="คลิกเลือกข่าวเพื่อใช้เป็น Hook">
+    </div>
     <button class="gbtn" id="gbtn" onclick="generate()">Generate</button>
   </div>
-  <div id="gen-spin" style="display:none" class="loading"><span class="spin"></span>Gemini กำลังสร้าง content...</div>
+  <div id="gen-spin" style="display:none; margin-top:15px" class="loading"><span class="spin"></span>Gemini กำลังสร้าง content...</div>
   <div id="gen-err" class="err" style="display:none"></div>
 
-  <!-- OUTPUT -->
   <div id="gen-out" style="display:none">
     <div class="out-section">
       <div class="grid2" style="margin-bottom:12px">
@@ -254,7 +256,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRh6mM-VWlcPy5guauITFYBY72VFdhEELAgeadxzvw2NHAlxu5vus3Ul2MJcVeQxAb/exec";  // ← วาง URL ตรงนี้
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS5s_cbhfz__o6ojjpgGb-6Y6qGsRGqRVklMnOAItmri4R1_Y_Qwnj_PdlZEKhv515/exec";  // ← วาง URL ของ Apps Script ตรงนี้
 
 let CUR_KW = "all";
 
@@ -288,13 +290,12 @@ function init() {
   });
 }
 
-// ── Load keyword data — lazy parallel ────────────────────────
+// ── Load keyword data ─────────────────────────────────────────
 function loadKw() {
   CUR_KW = document.getElementById('kw').value;
   setLoad(['ac-body','serp-body','paa-body']);
 
-  // โหลดแต่ละ section อิสระ แสดงผลทันทีที่พร้อม
-  call({action:'ac',   keyword:CUR_KW}, (d,err) => {
+  call({action:'ac',  keyword:CUR_KW}, (d,err) => {
     if (err) return setEmpty('ac-body');
     renderAc(d.autocomplete||[]);
   });
@@ -312,7 +313,6 @@ function loadKw() {
   });
 }
 
-// ── Autocomplete ──────────────────────────────────────────────
 function renderAc(items) {
   document.getElementById('ac-body').innerHTML = items.length
     ? items.map((k,i)=>`
@@ -324,7 +324,6 @@ function renderAc(items) {
     : '<div class="empty">ไม่มีข้อมูล</div>';
 }
 
-// ── SERP ──────────────────────────────────────────────────────
 function renderSerp(items) {
   document.getElementById('serp-ct').textContent = CUR_KW==='all'?'Google Top Rank — All':'Top Rank — '+CUR_KW;
   document.getElementById('serp-body').innerHTML = items.length
@@ -337,7 +336,6 @@ function renderSerp(items) {
     : '<div class="empty">ไม่มีข้อมูล</div>';
 }
 
-// ── PAA ───────────────────────────────────────────────────────
 function renderPaa(items) {
   document.getElementById('paa-ct').textContent = CUR_KW==='all'?'PAA — All':'PAA — '+CUR_KW;
   document.getElementById('paa-body').innerHTML = items.length
@@ -349,7 +347,6 @@ function renderPaa(items) {
     : '<div class="empty">ไม่มีข้อมูล</div>';
 }
 
-// ── News (split into 3 cols) ──────────────────────────────────
 function renderNews(items) {
   const cols = [[],[],[]];
   items.forEach((n,i) => cols[i%3].push(n));
@@ -367,9 +364,12 @@ function renderNews(items) {
   });
 }
 
-function useHook(t) {}
+function useHook(t) {
+  const hookInput = document.getElementById('gen-hook');
+  hookInput.value = t;
+  hookInput.scrollIntoView({behavior:'smooth', block:'center'});
+}
 
-// ── Suggest Keywords ──────────────────────────────────────────
 function loadSuggest() {
   const btn = document.getElementById('suggest-btn');
   btn.textContent = '...'; btn.disabled = true;
@@ -396,23 +396,35 @@ function renderSuggest(items) {
 }
 
 function pickSuggest(kw) {
-  document.getElementById('gen-kw').value = kw;
-  document.getElementById('gen-kw').scrollIntoView({behavior:'smooth',block:'center'});
+  const kwInput = document.getElementById('gen-kw');
+  kwInput.value = kw;
+  kwInput.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
-// ── Generate ──────────────────────────────────────────────────
 function generate() {
-  const kw   = CUR_KW;
-  const hook = "";
+  const kwInput = document.getElementById('gen-kw');
+  const kw   = kwInput && kwInput.value ? kwInput.value : CUR_KW;
+  const hookInput = document.getElementById('gen-hook');
+  const hook = hookInput ? hookInput.value : "";
+  
   document.getElementById('gen-out').style.display  = 'none';
   document.getElementById('gen-hint').style.display = 'none';
   document.getElementById('gen-err').style.display  = 'none';
-  document.getElementById('gen-spin').style.display = 'block';
+  
+  const spinEl = document.getElementById('gen-spin');
+  spinEl.style.display = 'block';
+  spinEl.innerHTML = '<span class="spin"></span>Gemini กำลังสร้าง content...';
   document.getElementById('gbtn').disabled = true;
 
-  call({action:'generate', keyword:kw, hook}, (res,err) => {
-    document.getElementById('gen-spin').style.display = 'none';
+  const waitingTimer = setTimeout(() => {
+    spinEl.innerHTML = '<span class="spin"></span>AI กำลังเรียบเรียงข้อมูลอยู่ รอกระพริบตาแป๊บนึงนะครับ... (อย่าเพิ่งกด Refresh น้า)';
+  }, 12000);
+
+  call({action:'generate', keyword:kw, hook:hook}, (res,err) => {
+    clearTimeout(waitingTimer);
+    spinEl.style.display = 'none';
     document.getElementById('gbtn').disabled = false;
+    
     if (err) {
       document.getElementById('gen-err').style.display  = 'block';
       document.getElementById('gen-err').textContent    = 'Error: '+err;

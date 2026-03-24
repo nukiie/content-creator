@@ -228,12 +228,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 <div class="gen-wrap">
   <div class="gen-top">
     <div class="field">
-      <label>Keyword ที่จะ generate</label>
-      <select id="gen-kw" class="finput" style="padding:7px 11px">
-        <option value="all">All Keywords (รวมทุก seed)</option>
-      </select>
-    </div>
-    <div class="field">
       <label>Situation Hook (ไม่บังคับ)</label>
       <input type="text" id="inp-hook" class="finput" placeholder="คลิกข่าวด้านบน หรือพิมพ์เอง">
     </div>
@@ -264,7 +258,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPPG6dt823B96YDYIGp9lHOmF7NVhky_w8FpnjmA1ShyRF50T8vfVTXUhAnlA0DhVp/exec";  // ← วาง URL ตรงนี้
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzelkf9MAsL29bZAY2FS4NYVVNc62MuUZJQxq-6zBFkoyGrGeWwddQG_7Ta5yHbHmWv/exec";  // ← วาง URL ตรงนี้
 
 let CUR_KW = "all";
 
@@ -293,8 +287,7 @@ function init() {
     document.getElementById('s-nw').textContent = st.news_broad||'—';
     const seeds = d.seeds||[];
     const opts  = '<option value="all">All Keywords</option>' + seeds.map(s=>`<option value="${esc(s)}">${s}</option>`).join('');
-    document.getElementById('kw').innerHTML    = opts;
-    document.getElementById('gen-kw').innerHTML= opts;
+    document.getElementById('kw').innerHTML = opts;
     renderNews(d.news||[]);
     loadKw();
   });
@@ -408,7 +401,7 @@ function pickSuggest(kw) {
 
 // ── Generate ──────────────────────────────────────────────────
 function generate() {
-  const kw   = document.getElementById('gen-kw').value;
+  const kw   = CUR_KW;
   const hook = document.getElementById('inp-hook').value;
   document.getElementById('gen-out').style.display  = 'none';
   document.getElementById('gen-hint').style.display = 'none';
@@ -460,8 +453,8 @@ function renderOut(r) {
             <button class="gtab on" onclick="swG(this,'${id}-z')">Gen Z</button>
             <button class="gtab"    onclick="swG(this,'${id}-y')">Gen Y</button>
           </div>
-          <div id="${id}-z" class="gpanel on">${mkContent(id,'z',d.gen_z)}</div>
-          <div id="${id}-y" class="gpanel">${mkContent(id,'y',d.gen_y)}</div>
+          <div id="${id}-z" class="gpanel on">${mkContent(id,'z',d.gen_z, p.key==='news_hook'?d.news_source:'')}</div>
+          <div id="${id}-y" class="gpanel">${mkContent(id,'y',d.gen_y, p.key==='news_hook'?d.news_source:'')}</div>
         </div>
       </div>`;
   }).join('');
@@ -475,11 +468,13 @@ function swG(btn,pid) {
   document.getElementById(pid).classList.add('on');
 }
 
-function mkContent(key,gen,s) {
+function mkContent(key,gen,s,newsSource) {
   if (!s) return '<div class="empty">ไม่มีข้อมูล</div>';
   const label = `[${key.toUpperCase()} — Gen ${gen.toUpperCase()}]`;
   const full  = `${label}\n\nHook:\n${s.hook}\n\nBody:\n${s.body}\n\nCaption:\n${s.caption}\n\nHashtags: ${(s.hashtags||[]).join(' ')}`;
+  const newsSrc = newsSource ? `<div class="cfield"><div class="cflabel" style="color:var(--amber)">ข่าวที่ใช้</div><div class="cfval" style="color:var(--tx2);font-size:11px">${newsSource}</div></div>` : '';
   return `
+    ${newsSrc}
     <div class="cfield">
       <div class="cflabel">Hook</div>
       <div class="cfval">${s.hook||''}</div>

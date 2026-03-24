@@ -254,7 +254,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz6JNEh15tMHVvzV6FFjvsy7el43dcqSq9UbVLk22KY2dqsPScq1crz0W-Eeaqsmqat/exec";  // ← วาง URL ตรงนี้
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRh6mM-VWlcPy5guauITFYBY72VFdhEELAgeadxzvw2NHAlxu5vus3Ul2MJcVeQxAb/exec";  // ← วาง URL ตรงนี้
 
 let CUR_KW = "all";
 
@@ -284,21 +284,30 @@ function init() {
     const seeds = d.seeds||[];
     const opts  = '<option value="all">All Keywords</option>' + seeds.map(s=>`<option value="${esc(s)}">${s}</option>`).join('');
     document.getElementById('kw').innerHTML = opts;
-    renderNews(d.news||[]);
     loadKw();
   });
 }
 
-// ── Load keyword data ─────────────────────────────────────────
+// ── Load keyword data — lazy parallel ────────────────────────
 function loadKw() {
   CUR_KW = document.getElementById('kw').value;
-  document.getElementById('gen-kw').value = CUR_KW;
   setLoad(['ac-body','serp-body','paa-body']);
-  call({action:'keyword', keyword:CUR_KW}, (d,err) => {
-    if (err) { ['ac-body','serp-body','paa-body'].forEach(id=>setEmpty(id)); return; }
+
+  // โหลดแต่ละ section อิสระ แสดงผลทันทีที่พร้อม
+  call({action:'ac',   keyword:CUR_KW}, (d,err) => {
+    if (err) return setEmpty('ac-body');
     renderAc(d.autocomplete||[]);
+  });
+  call({action:'serp', keyword:CUR_KW}, (d,err) => {
+    if (err) return setEmpty('serp-body');
     renderSerp(d.serp||[]);
+  });
+  call({action:'paa',  keyword:CUR_KW}, (d,err) => {
+    if (err) return setEmpty('paa-body');
     renderPaa(d.paa||[]);
+  });
+  call({action:'news', keyword:CUR_KW}, (d,err) => {
+    if (err) return;
     renderNews(d.news||[]);
   });
 }

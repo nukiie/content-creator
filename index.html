@@ -254,7 +254,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw8Ar9rmDMU1-ulQbpq8OzWmRgMgCC168Sx4TiZ_ei1PSLD07Z5qNsNauPZMdQ_hAMO/exec";  // ← วาง URL ตรงนี้
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxoyE9p_ldJgbAdtVDTr7itZlTBqnvnQ86bPe3pCsoQ8FJoQFCP-hMlHWCQwDbePD0/exec";  // ← วาง URL ตรงนี้
 
 let CUR_KW = "all";
 
@@ -331,17 +331,35 @@ function renderAc(items) {
     : '<div class="empty">ไม่มีข้อมูล</div>';
 }
 
-// ── SERP ──────────────────────────────────────────────────────
+// ── SERP — card style ─────────────────────────────────────────
 function renderSerp(items) {
   document.getElementById('serp-ct').textContent = CUR_KW==='all'?'Google Top Rank — All':'Top Rank — '+CUR_KW;
-  document.getElementById('serp-body').innerHTML = items.length
-    ? items.map(s=>`
-        <div class="srow">
-          <span class="skw">${s.keyword}</span>
-          <span class="sdoms">${s.top5.slice(0,3).map(t=>t.domain).join('<br>')}</span>
-          ${s.hasTidlor?`<span class="ok-tag">rank ${s.tidlorRank}</span>`:'<span class="gap-tag">gap</span>'}
-        </div>`).join('')
-    : '<div class="empty">ไม่มีข้อมูล</div>';
+  if (!items.length) { document.getElementById('serp-body').innerHTML='<div class="empty">ไม่มีข้อมูล</div>'; return; }
+
+  // flatten top5 results ของทุก keyword แล้วเรียงตาม rank
+  const results = [];
+  items.forEach(s => {
+    s.top5.forEach(t => {
+      results.push({ ...t, seedKw: s.keyword, hasTidlor: s.hasTidlor, tidlorRank: s.tidlorRank });
+    });
+  });
+  results.sort((a,b) => a.rank - b.rank);
+
+  document.getElementById('serp-body').innerHTML = results.slice(0,8).map(r => {
+    const isTidlor = r.domain.includes('tidlor') || r.domain.includes('ngerntidlor');
+    const cleanUrl = r.url ? r.url.replace(/https?:\/\/(www\.)?/,'').split('/')[0] + r.url.replace(/https?:\/\/[^/]+/,'') : '';
+    const displayUrl = cleanUrl.length > 55 ? cleanUrl.substring(0,55)+'...' : cleanUrl;
+    return `
+      <div style="padding:10px 0;border-bottom:.5px solid var(--s2)">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+          <span style="font-family:var(--mono);font-size:9px;background:${isTidlor?'var(--gdim)':'var(--s3)'};color:${isTidlor?'var(--green)':'var(--tx3)'};padding:1px 6px;border-radius:3px">#${r.rank}</span>
+          ${!r.hasTidlor&&r.rank<=3?'<span style="font-size:9px;font-weight:700;background:var(--adim);color:var(--amber);padding:1px 6px;border-radius:3px">gap</span>':''}
+        </div>
+        <div style="font-size:13px;font-weight:500;color:${isTidlor?'var(--green)':'#4da6ff'};line-height:1.4;margin-bottom:3px">${r.title||r.domain}</div>
+        <div style="font-size:10px;color:var(--green);margin-bottom:4px;opacity:.7">${displayUrl}</div>
+        ${r.snippet?`<div style="font-size:11px;color:var(--tx2);line-height:1.6">${r.snippet.substring(0,120)}${r.snippet.length>120?'...':''}</div>`:''}
+      </div>`;
+  }).join('');
 }
 
 // ── PAA ───────────────────────────────────────────────────────

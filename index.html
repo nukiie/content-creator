@@ -208,7 +208,7 @@ main{max-width:1200px;margin:0 auto;padding:20px 24px}
   </div>
 </div>
 
-<div class="sec">TODAY'S NEWS<span style="font-size:10px;font-weight:400;color:var(--tx3)">คลิกเพื่อใส่เป็น situation hook</span></div>
+<div class="sec">NEWS<span style="font-size:10px;font-weight:400;color:var(--tx3)">คลิกเพื่อใส่เป็น situation hook</span></div>
 <div class="nwrap">
   <div class="nc" id="news-1"><div class="loading"><div class="skeleton"></div><div class="skeleton" style="width:80%"></div></div></div>
   <div class="nc" id="news-2"></div>
@@ -217,7 +217,7 @@ main{max-width:1200px;margin:0 auto;padding:20px 24px}
 
 </div>
 
-<div class="sec" style="margin-top:4px">CONTENT IDEAS</div>
+<div class="sec" style="margin-top:4px">Content Generator</div>
 <div class="gen-wrap">
   <div class="gen-top">
     <span class="kwlabel">Keyword: <strong id="cur-kw-label">All Keywords</strong></span>
@@ -258,7 +258,7 @@ main{max-width:1200px;margin:0 auto;padding:20px 24px}
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTQUBo4plUn0_iPRzJ16YJWuIr-enxhSkLbL0oMgb0fSL8S0FCczBWXfWIycewJUp4/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRl5AgQhzDRJbeeIIvd2qK1hvgSgBI4vTB_VJozJw43-XJuN6A4iAG5c2nk4GlGzE/exec";
 
 let CUR_KW = "all";
 const STEPS = ["pain","aeo","hi","fin","sea","news"];
@@ -445,12 +445,13 @@ function swG(btn,pid) {
 function mkContent(key,gen,s,newsSource) {
   if (!s) return '<div class="empty">ไม่มีข้อมูล</div>';
   const label = `[${key.toUpperCase()} — Gen ${gen.toUpperCase()}]`;
-  const full  = `${label}\n\nHook:\n${s.hook}\n\nBody:\n${s.body}\n\nCaption:\n${s.caption}\n\nHashtags: ${(s.hashtags||[]).join(' ')}`;
+  const bodyTxt = Array.isArray(s.body) ? s.body.join('\n') : (s.body||'');
+  const full  = `${label}\n\nHook:\n${s.hook}\n\nBody:\n${bodyTxt}\n\nCaption:\n${s.caption}\n\nHashtags: ${(s.hashtags||[]).join(' ')}`;
   const ns = (key==='news_hook'&&newsSource)
     ? `<div class="ns-box"><span class="ns-label">ข่าว</span>${newsSource}</div>` : '';
   return `${ns}
     <div class="cfield"><div class="cflabel">Hook</div><div class="cfval">${s.hook||''}</div></div>
-    <div class="cfield"><div class="cflabel">Body</div><div class="cfval">${s.body||''}</div></div>
+    <div class="cfield"><div class="cflabel">Body</div><div class="cfval">${Array.isArray(s.body)?s.body.join('\n'):(s.body||'')}</div></div>
     <div class="cfield"><div class="cflabel">Caption</div><div class="cfval">${s.caption||''}</div></div>
     <div class="cfield"><div class="cflabel">Hashtags</div><div class="htags">${(s.hashtags||[]).map(h=>`<span class="htag">${h}</span>`).join('')}</div></div>
     <button class="cpybtn" onclick="cpy(this,\`${full.replace(/`/g,'\\`').replace(/\$/g,'\\$')}\`)">copy ทั้งหมด</button>`;

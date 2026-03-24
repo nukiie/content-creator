@@ -149,7 +149,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 .empty{padding:16px;text-align:center;color:var(--tx3);font-size:12px}
 .err{color:var(--coral);font-size:12px;padding:8px 0;text-align:center}
 .hint{padding:20px;text-align:center;color:var(--tx3);font-size:12px;border:.5px dashed var(--bd2);border-radius:var(--r2)}
-.setup{background:var(--adim);border:1px solid rgba(245,166,35,.2);border-radius:var(--r);padding:12px 16px;margin-bottom:16px;font-size:12px;color:var(--amber);display:none}
+.setup{background:var(--adim);border:1px solid rgba(245,166,35,.2);border-radius:var(--r);padding:12px 16px;margin-bottom:166px;font-size:12px;color:var(--amber);display:none}
 .setup.show{display:block}
 
 @media(max-width:900px){
@@ -222,14 +222,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 <div class="sec" style="margin-top:20px">Content Generator</div>
 <div class="gen-wrap">
   <div class="gen-top">
-    <div class="field">
-      <label>Keyword สำหรับปั้น Content</label>
-      <input type="text" id="gen-kw" class="finput" placeholder="พิมพ์หรือเลือกจากด้านบน">
-    </div>
-    <div class="field">
-      <label>News Hook (Optional)</label>
-      <input type="text" id="gen-hook" class="finput" placeholder="คลิกเลือกข่าวเพื่อใช้เป็น Hook">
-    </div>
     <button class="gbtn" id="gbtn" onclick="generate()">Generate</button>
   </div>
   <div id="gen-spin" style="display:none; margin-top:15px" class="loading"><span class="spin"></span>Gemini กำลังสร้าง content...</div>
@@ -256,7 +248,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS5s_cbhfz__o6ojjpgGb-6Y6qGsRGqRVklMnOAItmri4R1_Y_Qwnj_PdlZEKhv515/exec";  // ← วาง URL ของ Apps Script ตรงนี้
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS5s_cbhfz__o6ojjpgGb-6Y6qGsRGqRVklMnOAItmri4R1_Y_Qwnj_PdlZEKhv515/exec";  // ← วาง URL ตรงนี้
 
 let CUR_KW = "all";
 
@@ -290,12 +282,13 @@ function init() {
   });
 }
 
-// ── Load keyword data ─────────────────────────────────────────
+// ── Load keyword data — lazy parallel ────────────────────────
 function loadKw() {
   CUR_KW = document.getElementById('kw').value;
   setLoad(['ac-body','serp-body','paa-body']);
 
-  call({action:'ac',  keyword:CUR_KW}, (d,err) => {
+  // โหลดแต่ละ section อิสระ แสดงผลทันทีที่พร้อม
+  call({action:'ac',    keyword:CUR_KW}, (d,err) => {
     if (err) return setEmpty('ac-body');
     renderAc(d.autocomplete||[]);
   });
@@ -313,6 +306,7 @@ function loadKw() {
   });
 }
 
+// ── Autocomplete ──────────────────────────────────────────────
 function renderAc(items) {
   document.getElementById('ac-body').innerHTML = items.length
     ? items.map((k,i)=>`
@@ -324,6 +318,7 @@ function renderAc(items) {
     : '<div class="empty">ไม่มีข้อมูล</div>';
 }
 
+// ── SERP ──────────────────────────────────────────────────────
 function renderSerp(items) {
   document.getElementById('serp-ct').textContent = CUR_KW==='all'?'Google Top Rank — All':'Top Rank — '+CUR_KW;
   document.getElementById('serp-body').innerHTML = items.length
@@ -336,6 +331,7 @@ function renderSerp(items) {
     : '<div class="empty">ไม่มีข้อมูล</div>';
 }
 
+// ── PAA ───────────────────────────────────────────────────────
 function renderPaa(items) {
   document.getElementById('paa-ct').textContent = CUR_KW==='all'?'PAA — All':'PAA — '+CUR_KW;
   document.getElementById('paa-body').innerHTML = items.length
@@ -347,6 +343,7 @@ function renderPaa(items) {
     : '<div class="empty">ไม่มีข้อมูล</div>';
 }
 
+// ── News (split into 3 cols) ──────────────────────────────────
 function renderNews(items) {
   const cols = [[],[],[]];
   items.forEach((n,i) => cols[i%3].push(n));
@@ -364,12 +361,9 @@ function renderNews(items) {
   });
 }
 
-function useHook(t) {
-  const hookInput = document.getElementById('gen-hook');
-  hookInput.value = t;
-  hookInput.scrollIntoView({behavior:'smooth', block:'center'});
-}
+function useHook(t) {}
 
+// ── Suggest Keywords ──────────────────────────────────────────
 function loadSuggest() {
   const btn = document.getElementById('suggest-btn');
   btn.textContent = '...'; btn.disabled = true;
@@ -396,17 +390,15 @@ function renderSuggest(items) {
 }
 
 function pickSuggest(kw) {
-  const kwInput = document.getElementById('gen-kw');
-  kwInput.value = kw;
-  kwInput.scrollIntoView({behavior:'smooth', block:'center'});
+  document.getElementById('gen-kw').value = kw;
+  document.getElementById('gen-kw').scrollIntoView({behavior:'smooth',block:'center'});
 }
 
+// ── Generate ──────────────────────────────────────────────────
+// (AEO Frontend อัปเกรดสถานะแสดงสถานะเมื่อ Gemini ใช้เวลาคิดนาน)
 function generate() {
-  const kwInput = document.getElementById('gen-kw');
-  const kw   = kwInput && kwInput.value ? kwInput.value : CUR_KW;
-  const hookInput = document.getElementById('gen-hook');
-  const hook = hookInput ? hookInput.value : "";
-  
+  const kw   = CUR_KW;
+  const hook = "";
   document.getElementById('gen-out').style.display  = 'none';
   document.getElementById('gen-hint').style.display = 'none';
   document.getElementById('gen-err').style.display  = 'none';
@@ -416,12 +408,13 @@ function generate() {
   spinEl.innerHTML = '<span class="spin"></span>Gemini กำลังสร้าง content...';
   document.getElementById('gbtn').disabled = true;
 
+  // ตั้งเวลา: ถ้าผ่านไป 12 วินาทีแล้วยังไม่เสร็จ ให้เปลี่ยนข้อความไม่ให้คนตกใจ
   const waitingTimer = setTimeout(() => {
     spinEl.innerHTML = '<span class="spin"></span>AI กำลังเรียบเรียงข้อมูลอยู่ รอกระพริบตาแป๊บนึงนะครับ... (อย่าเพิ่งกด Refresh น้า)';
   }, 12000);
 
-  call({action:'generate', keyword:kw, hook:hook}, (res,err) => {
-    clearTimeout(waitingTimer);
+  call({action:'generate', keyword:kw, hook}, (res,err) => {
+    clearTimeout(waitingTimer); // ยกเลิกตัวนับเวลา
     spinEl.style.display = 'none';
     document.getElementById('gbtn').disabled = false;
     

@@ -227,10 +227,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 <div class="sec" style="margin-top:20px">Content Generator</div>
 <div class="gen-wrap">
   <div class="gen-top">
-    <div class="field">
-      <label>Situation Hook (ไม่บังคับ)</label>
-      <input type="text" id="inp-hook" class="finput" placeholder="คลิกข่าวด้านบน หรือพิมพ์เอง">
-    </div>
     <button class="gbtn" id="gbtn" onclick="generate()">Generate</button>
   </div>
   <div id="gen-spin" style="display:none" class="loading"><span class="spin"></span>Gemini กำลังสร้าง content...</div>
@@ -258,7 +254,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 24px}
 </main>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzelkf9MAsL29bZAY2FS4NYVVNc62MuUZJQxq-6zBFkoyGrGeWwddQG_7Ta5yHbHmWv/exec";  // ← วาง URL ตรงนี้
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3FpXq2fOEglO-metQfHac7qlP3CZ69Fqm71hFAI69gQActxdtCY42MY1mFZ9gfDVT/exec";  // ← วาง URL ตรงนี้
 
 let CUR_KW = "all";
 
@@ -362,11 +358,7 @@ function renderNews(items) {
   });
 }
 
-function useHook(t) {
-  document.getElementById('inp-hook').value = t;
-  document.getElementById('gen-kw').value   = document.getElementById('kw').value;
-  document.getElementById('gen-kw').scrollIntoView({behavior:'smooth',block:'center'});
-}
+function useHook(t) {}
 
 // ── Suggest Keywords ──────────────────────────────────────────
 function loadSuggest() {
@@ -402,7 +394,7 @@ function pickSuggest(kw) {
 // ── Generate ──────────────────────────────────────────────────
 function generate() {
   const kw   = CUR_KW;
-  const hook = document.getElementById('inp-hook').value;
+  const hook = "";
   document.getElementById('gen-out').style.display  = 'none';
   document.getElementById('gen-hint').style.display = 'none';
   document.getElementById('gen-err').style.display  = 'none';
